@@ -58,7 +58,7 @@ const signup = () => {
                 name:mname,
                 age:age,
                 pregnantDate:Pdate,
-                dueDate:dueDate
+                dueDate:futureDate.toDateString()
             })
 
             const data = response.data
