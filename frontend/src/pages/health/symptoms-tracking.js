@@ -23,15 +23,15 @@ const symptomsTracking = () => {
     
     const [selectedSymptoms, setSelectedSymptoms] = useState(symptoms.length > 0 ? symptoms[0].symptoms : [])
 
-  console.log(selectedSymptoms);
+    console.log(selectedSymptoms)
 
-  const onBackClickHandler = () => {
-    router.back();
-  };
+    const onBackClickHandler = () => {
+        router.back()
+    }
 
-  const onAddSymptomsClickHandler = () => {
-    router.push("/health/select-symptoms");
-  };
+    const onAddSymptomsClickHandler = () => {
+        router.push('/health/select-symptoms')
+    }
 
     const onChangeSymptomLevelHandler = (symptom, level) => {
         // find that symptom in selectedSymptoms and update it with the new level
@@ -70,6 +70,7 @@ const symptomsTracking = () => {
                 }
             )
 
+            console.log(response.data)
             
 
             if (response.data.success) {
@@ -82,140 +83,58 @@ const symptomsTracking = () => {
         }
     }
 
-  return (
-    <div className="flex flex-col h-full w-full">
-      <div className="flex flex-row h-[60px] items-center justify-center relative">
-        <div className=" absolute left-[20px]" onClick={onBackClickHandler}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15.75 19.5L8.25 12l7.5-7.5"
-            />
-          </svg>
-        </div>
+    return (
+        <div className='flex flex-col h-full w-full'>
+            <div className='flex flex-row h-[60px] items-center justify-center relative'>
+                <div className=' absolute left-[20px]' onClick={onBackClickHandler}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                </div>
 
-        <div className=" font-semibold text-[20px]">Symptoms Tracking</div>
-      </div>
+                <div className=' font-semibold text-[20px]'>Symptoms Tracking</div>
+            </div>
 
-      <div className="flex flex-col items-center bg-[#ffebea] py-[20px] box-border">
-        <div className="flex flex-row gap-x-[25px] text-[#7d7d80]">
-          <div
-            className={`flex flex-col gap-y-[10px] justify-center ${
-              activeDay === 1
-                ? "rounded-lg px-[6px] py-[10px] box-border bg-white font-semibold" // Highlight the current date with a blue background
-                : ""
-            }`}
-            onClick={() => {
-              setActiveDay(1);
-            }}
-          >
-            <div className="text-center">S</div>
-            <div className="text-[#de8f90]">01</div>
-          </div>
-          <div
-            className={`flex flex-col gap-y-[10px] justify-center ${
-              activeDay === 2
-                ? "rounded-lg px-[6px] py-[10px] box-border bg-white font-semibold" // Highlight the current date with a blue background
-                : ""
-            }`}
-            onClick={() => {
-              setActiveDay(2);
-            }}
-          >
-            <div className="text-center">M</div>
-            <div className="text-[#de8f90]">02</div>
-          </div>
-          <div
-            className={`flex flex-col gap-y-[10px] justify-center ${
-              activeDay === 3
-                ? "rounded-lg px-[6px] py-[10px] box-border bg-white font-semibold" // Highlight the current date with a blue background
-                : ""
-            }`}
-            onClick={() => {
-              setActiveDay(3);
-            }}
-          >
-            <div className="text-center">T</div>
-            <div className="text-[#de8f90]">03</div>
-          </div>
-          <div
-            className={`flex flex-col gap-y-[10px] justify-center ${
-              activeDay === 4
-                ? "rounded-lg px-[6px] py-[10px] box-border bg-white font-semibold" // Highlight the current date with a blue background
-                : ""
-            }`}
-            onClick={() => {
-              setActiveDay(4);
-              setDisplayData();
-            }}
-          >
-            <div className="text-center">W</div>
-            <div className="text-[#de8f90]">04</div>
-          </div>
-          <div
-            className={`flex flex-col gap-y-[10px] justify-center ${
-              activeDay === 5
-                ? "rounded-lg px-[6px] py-[10px] box-border bg-white font-semibold" // Highlight the current date with a blue background
-                : ""
-            }`}
-            onClick={() => {
-              setActiveDay(5);
-              setDisplayData();
-            }}
-          >
-            <div className="text-center">T</div>
-            <div className="text-[#de8f90]">05</div>
-          </div>
-          <div
-            className={`flex flex-col gap-y-[10px] justify-center ${
-              activeDay === 6
-                ? "rounded-lg px-[6px] py-[10px] box-border bg-white font-semibold" // Highlight the current date with a blue background
-                : ""
-            }`}
-          >
-            <div className="text-center">F</div>
-            <div className="text-[#de8f90]">06</div>
-          </div>
-          <div
-            className={`flex flex-col gap-y-[10px] justify-center ${
-              activeDay === 7
-                ? "rounded-lg px-[6px] py-[10px] box-border bg-white font-semibold" // Highlight the current date with a blue background
-                : ""
-            }`}
-          >
-            <div className="text-center">S</div>
-            <div className="text-[#de8f90]">07</div>
-          </div>
-          <div
-            className={`flex flex-col gap-y-[10px] justify-center ${
-              activeDay === 8
-                ? "rounded-lg px-[6px] py-[10px] box-border bg-white font-semibold" // Highlight the current date with a blue background
-                : ""
-            }`}
-          >
-            <div className="text-center">S</div>
-            <div className="text-[#de8f90]">08</div>
-          </div>
-          <div
-            className={`flex flex-col gap-y-[10px] justify-center ${
-              activeDay === 9
-                ? "rounded-lg px-[6px] py-[10px] box-border bg-white font-semibold" // Highlight the current date with a blue background
-                : ""
-            }`}
-          >
-            <div className="text-center">M</div>
-            <div className="text-[#de8f90]">09</div>
-          </div>
-        </div>
-      </div>
+            <div className='flex flex-col items-center bg-[#ffebea] py-[20px] box-border'>
+                <div className='flex flex-row gap-x-[25px] text-[#7d7d80]'>
+                    <div className={`flex flex-col gap-y-[10px] justify-center`}>
+                        <div className='text-center'>S</div>
+                        <div className='text-[#de8f90]'>01</div>
+                    </div>
+                    <div className='flex flex-col gap-y-[10px] justify-center'>
+                        <div className='text-center'>M</div>
+                        <div className='text-[#de8f90]'>02</div>
+                    </div>
+                    <div className='flex flex-col gap-y-[10px] justify-center'>
+                        <div className='text-center'>T</div>
+                        <div className='text-[#de8f90]'>03</div>
+                    </div>
+                    <div className='flex flex-col gap-y-[10px] justify-center'>
+                        <div className='text-center'>W</div>
+                        <div className='text-[#de8f90]'>04</div>
+                    </div>
+                    <div className='flex flex-col gap-y-[10px] justify-center rounded-md px-[6px] py-[10px] box-border bg-white font-semibold'>
+                        <div className='text-center'>T</div>
+                        <div className='text-[#de8f90]'>05</div>
+                    </div>
+                    <div className='flex flex-col gap-y-[10px] justify-center'>
+                        <div className='text-center'>F</div>
+                        <div className='text-[#de8f90]'>06</div>
+                    </div>
+                    <div className='flex flex-col gap-y-[10px] justify-center'>
+                        <div className='text-center'>S</div>
+                        <div className='text-[#de8f90]'>07</div>
+                    </div>
+                    <div className='flex flex-col gap-y-[10px] justify-center'>
+                        <div className='text-center'>S</div>
+                        <div className='text-[#de8f90]'>08</div>
+                    </div>
+                    <div className='flex flex-col gap-y-[10px] justify-center'>
+                        <div className='text-center'>M</div>
+                        <div className='text-[#de8f90]'>09</div>
+                    </div>
+                </div>
+            </div> 
 
             <div className='mt-[20px] ml-[20px] font-semibold text-[18px]'>Today's Log</div>
 
@@ -225,68 +144,34 @@ const symptomsTracking = () => {
                 </div>
             }
 
-      <div className="flex flex-col overflow-scroll gap-y-[10px] mb-[10px] mt-[20px]">
-        {selectedSymptoms.map((symptom) => {
-          console.log(symptom.level);
-          return (
-            <div
-              className={`flex flex-col w-[90%] mx-auto rounded-[10px] px-[5px] py-[10px] ${
-                symptom.type == "Physical" && "bg-[#FFF1F9]"
-              } ${symptom.type == "Emotional" && "bg-[#F1FFF2]"} ${
-                symptom.type == "Other" && "bg-[#F6F3FF]"
-              }`}
-            >
-              <div className="flex flex-row items-center justify-center">
-                <div className="font-semitext-[16px]">{symptom.name}</div>
-              </div>
+            <div className='flex flex-col overflow-scroll gap-y-[10px] mb-[10px] mt-[20px]'>
+                {selectedSymptoms.map(symptom => {
+                    console.log(symptom.level)
+                    return (
+                        <div className={`flex flex-col w-[90%] mx-auto rounded-[10px] px-[5px] py-[10px] ${symptom.type == "Physical" && "bg-[#FFF1F9]"} ${symptom.type == "Emotional" && "bg-[#F1FFF2]"} ${symptom.type == "Other" && "bg-[#F6F3FF]"}`}>
+                            <div className='flex flex-row items-center justify-center'>
+                                <div className='font-semitext-[16px]'>{symptom.name}</div>
+                            </div>
 
-              <div className="flex flex-col w-[90%] self-center justify-between">
-                <div
-                  className={`${symptom.type == "Physical" && "bg-[#da7bae]"} ${
-                    symptom.type == "Emotional" && "bg-[#4EA670]"
-                  } ${
-                    symptom.type == "Other" && "bg-[#838CD8]"
-                  } h-[2px] mt-[25px] mb-[15px] relative rounded-sm`}
-                >
-                  <div
-                    className={`absolute ${
-                      symptom.type === "Physical"
-                        ? "bg-[#da7bae]"
-                        : symptom.type === "Emotional"
-                        ? "bg-[#4EA670]"
-                        : "bg-[#838CD8]"
-                    } h-[4px] ${symptom.level == 1 && "w-[2%]"} ${
-                      symptom.level == 2 && "w-[50%]"
-                    } ${
-                      symptom.level == 3 && "w-[100%]"
-                    } mt-[-1px] flex flex-row items-center rounded-sm`}
-                  >
-                    <div
-                      className={`rounded-full w-[10px] h-[10px] ml-auto ${
-                        symptom.type == "Physical" && "bg-[#da7bae]"
-                      } ${symptom.type == "Emotional" && "bg-[#4EA670]"} ${
-                        symptom.type == "Other" && "bg-[#838CD8]"
-                      }`}
-                    ></div>
-                  </div>
-                </div>
+                            <div className='flex flex-col w-[90%] self-center justify-between'>
+                                <div className={`${symptom.type == "Physical" && "bg-[#da7bae]"} ${symptom.type == "Emotional" && "bg-[#4EA670]"} ${symptom.type == "Other" && "bg-[#838CD8]"} h-[2px] mt-[25px] mb-[15px] relative rounded-sm`}>
+                                    <div className={`absolute ${symptom.type === "Physical" ? "bg-[#da7bae]" : (symptom.type === "Emotional" ? "bg-[#4EA670]" : "bg-[#838CD8]")} h-[4px] ${symptom.level == 1 && "w-[2%]"} ${symptom.level == 2 && "w-[50%]"} ${symptom.level == 3 && "w-[100%]"} mt-[-1px] flex flex-row items-center rounded-sm`}>
+                                        <div className={`rounded-full w-[10px] h-[10px] ml-auto ${symptom.type == "Physical" && "bg-[#da7bae]"} ${symptom.type == "Emotional" && "bg-[#4EA670]"} ${symptom.type == "Other" && "bg-[#838CD8]"}`}></div>
+                                    </div>
+                                </div>
 
-                <div className="flex flex-row justify-between">
-                  <div onClick={() => onChangeSymptomLevelHandler(symptom, 1)}>
-                    Low
-                  </div>
-                  <div onClick={() => onChangeSymptomLevelHandler(symptom, 2)}>
-                    Medium
-                  </div>
-                  <div onClick={() => onChangeSymptomLevelHandler(symptom, 3)}>
-                    High
-                  </div>
-                </div>
-              </div>
+                                
+
+                                <div className='flex flex-row justify-between'>
+                                    <div onClick={() => onChangeSymptomLevelHandler(symptom, 1)}>Low</div>
+                                    <div onClick={() => onChangeSymptomLevelHandler(symptom, 2)}>Medium</div>
+                                    <div onClick={() => onChangeSymptomLevelHandler(symptom, 3)}>High</div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })}
             </div>
-          );
-        })}
-      </div>
 
             {selectedSymptoms.length == 0 ? 
                 <div className='w-[90%] min-h-[40px] flex items-center justify-center mt-auto mb-[20px] self-center rounded-[5px] bg-[#DE8F90] font-semibold text-white cursor-pointer'
@@ -299,9 +184,7 @@ const symptomsTracking = () => {
                 >{savedStatus ? "Saved!!" : "Save Symptoms"}</div>
             }            
         </div>
-      ) : null}
-    </div>
-  );
-};
+    )
+}
 
-export default symptomsTracking;
+export default symptomsTracking
