@@ -155,25 +155,31 @@ const dashboard = () => {
 
     return (
         <div className='h-[100%] p-[20px]'>
-            <div className='flex overflow-x-auto space-x-2 h-[70px] justify-center items-center'>
-                <h1 className="text-[#265eba] font-bold text-[30px]"> It's {weeks} Week</h1>
-                {/* <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
-                <h2 className='block font-bold text-[black]'>Week</h2>
-                    <h2 className='block font-bold text-[black]'>1</h2>
+            <div className='flex overflow-x-auto space-x-2 h-[70px] justify-center items-end'>
+                {/* <h1 className="text-[#969595] font-bold text-[15px]"> Week {weeks-1}</h1>
+                <h1 className="text-[#265eba] font-bold text-[15px] mx-[15px]"> Week {weeks}</h1>
+                <h1 className="text-[#969595] font-bold text-[15px]"> Week {weeks+1}</h1> */}
+                <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
+                <h2 className='block font-bold text-[#b0aeae]'>Week</h2>
+                    <h2 className='block font-bold text-[#b0aeae]'>{weeks-2}</h2>
                     
                 </div>
                 <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
                     <h2 className='block font-bold text-[#b0aeae]'>Week</h2>
-                    <h2 className='block font-bold text-[#b0aeae]'>2</h2>
+                    <h2 className='block font-bold text-[#b0aeae]'>{weeks-1}</h2>
                 </div>
                 <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
-                <h2 className='block font-bold text-[#b0aeae]'>Week</h2>
-                    <h2 className='block font-bold text-[#b0aeae]'>3</h2>
+                <h2 className='block font-bold text-[#265eba]'>Week</h2>
+                    <h2 className='block font-bold text-[#265eba]'>{weeks}</h2>
                 </div>
                 <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
                     <h2 className='block font-bold text-[#b0aeae]'>Week</h2>
-                    <h2 className='block font-bold text-[#b0aeae]'>4</h2>
-                </div> */}
+                    <h2 className='block font-bold text-[#b0aeae]'>{weeks+1}</h2>
+                </div>
+                <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
+                    <h2 className='block font-bold text-[#b0aeae]'>Week</h2>
+                    <h2 className='block font-bold text-[#b0aeae]'>{weeks+2}</h2>
+                </div>
             </div>
             <div className='relative w-[100%] h-[250px]  mb-[10px] flex flex-col justify-center items-center'>
                 <img className='absolute bottom-[35%]  w-[100px] h-[100px] rounded-[50px]' src='/assets/infant.png' alt="" />
