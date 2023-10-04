@@ -1,33 +1,27 @@
-import { DatePickerOptions } from "@/constants/Constants";
-import { AppContext } from "@/context/appContext";
-import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
-import DatePicker from "tailwind-datepicker-react";
+import { DatePickerOptions } from '@/constants/Constants'
+import { AppContext } from '@/context/appContext'
+import axios from 'axios'
+import { useRouter } from 'next/router'
+import React, { useContext, useState } from 'react'
+import { toast } from 'react-toastify'
+import DatePicker from 'tailwind-datepicker-react'
 
 const symptomsTracking = () => {
-  const [level, setLevel] = useState(1);
-  const [activeDay, setActiveDay] = useState(5);
-  const [displayData, setDisplayData] = useState([]);
+    const [level, setLevel] = useState(1)
+    const router = useRouter()
+    const auth = useContext(AppContext)
+    const { userData, setUserData } = auth
+    const [savedStatus, setSavedStatus] = useState(false)
 
-  const router = useRouter();
-  const auth = useContext(AppContext);
-  const { userData, setUserData } = auth;
-
-  const symptoms = userData.symptoms.filter((symptom) => {
-    const date = symptom.date;
-    const today = new Date();
-    const todayDate = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate()
-    );
-
-    return date.getTime() === todayDate.getTime();
-  });
-
-  const [selectedSymptoms, setSelectedSymptoms] = useState(
-    symptoms.length > 0 ? symptoms[0].symptoms : []
-  );
+    const symptoms = userData.symptoms.filter(symptom => {
+        const date = symptom.date;
+        const today = new Date();
+        const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    
+        return date.getTime() === todayDate.getTime();
+    });
+    
+    const [selectedSymptoms, setSelectedSymptoms] = useState(symptoms.length > 0 ? symptoms[0].symptoms : [])
 
   console.log(selectedSymptoms);
 
@@ -39,22 +33,54 @@ const symptomsTracking = () => {
     router.push("/health/select-symptoms");
   };
 
-  const onChangeSymptomLevelHandler = (symptom, level) => {
-    // find that symptom in selectedSymptoms and update it with the new level
-    const newSelectedSymptoms = selectedSymptoms.map((symptomObj) => {
-      if (symptomObj.id === symptom.id) {
-        return {
-          ...symptomObj,
-          level,
-        };
-      } else {
-        return symptomObj;
-      }
-    });
+    const onChangeSymptomLevelHandler = (symptom, level) => {
+        // find that symptom in selectedSymptoms and update it with the new level
+        const newSelectedSymptoms = selectedSymptoms.map(symptomObj => {
+            if (symptomObj.id === symptom.id) {
+                return {
+                    ...symptomObj,
+                    level
+                }
+            } else {
+                return symptomObj
+            }
+        })
 
-    console.log(newSelectedSymptoms);
-    setSelectedSymptoms(newSelectedSymptoms);
-  };
+        console.log(newSelectedSymptoms)
+        setSelectedSymptoms(newSelectedSymptoms)
+    }
+
+    const onSaveSymptomsClickHandler = async () => {
+        if(savedStatus || selectedSymptoms.length == 0)
+            return
+
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NjQzNDc1NywianRpIjoiMTBhMDAxNTgtNTk2OC00NzQ0LTg5MjMtYjVkZTY0YjQ1MTNiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjkxMzczNTcwMDMiLCJuYmYiOjE2OTY0MzQ3NTcsImV4cCI6MTY5NjUyMTE1N30.WrSWvj27zVmXx659O07KQqdkrGY2Pazrf9CT-Sy20vU"
+
+        try {
+            const response = await axios.post(
+                'http://localhost:5000/savesymptoms',
+                {
+                    symptoms: userData.symptoms
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                  },
+                }
+            )
+
+            
+
+            if (response.data.success) {
+                toast.success('Symptoms saved successfully')
+                setSavedStatus(true)
+            }
+        }
+        catch (err) {
+            toast.error(err.response.data.msg)
+        }
+    }
 
   return (
     <div className="flex flex-col h-full w-full">
@@ -191,10 +217,13 @@ const symptomsTracking = () => {
         </div>
       </div>
 
-      <div className="mt-[20px] ml-[20px] font-semibold text-[18px]">
-        {`${activeDay === 5 ? "Today's" : "Past"}
-        Log`}
-      </div>
+            <div className='mt-[20px] ml-[20px] font-semibold text-[18px]'>Today's Log</div>
+
+            {selectedSymptoms.length == 0 &&
+                <div className='w-[400px] absolute m-auto text-center mt-[350px]'>
+                    Add symptoms you are experiencing today
+                </div>
+            }
 
       <div className="flex flex-col overflow-scroll gap-y-[10px] mb-[10px] mt-[20px]">
         {selectedSymptoms.map((symptom) => {
@@ -259,12 +288,16 @@ const symptomsTracking = () => {
         })}
       </div>
 
-      {activeDay === 5 ? (
-        <div
-          className="w-[90%] min-h-[40px] flex items-center justify-center mt-auto mb-[20px] self-center rounded-[5px] bg-[#DE8F90] font-semibold text-white cursor-pointer"
-          onClick={onAddSymptomsClickHandler}
-        >
-          Add Symptoms
+            {selectedSymptoms.length == 0 ? 
+                <div className='w-[90%] min-h-[40px] flex items-center justify-center mt-auto mb-[20px] self-center rounded-[5px] bg-[#DE8F90] font-semibold text-white cursor-pointer'
+                    onClick={onAddSymptomsClickHandler}
+                >Add Symptoms</div>
+            :
+                <div className='w-[90%] min-h-[40px] flex items-center justify-center mt-auto mb-[20px] self-center rounded-[5px] bg-[#DE8F90] font-semibold text-white cursor-pointer'
+                    // onClick={onAddSymptomsClickHandler}
+                    onClick={onSaveSymptomsClickHandler}
+                >{savedStatus ? "Saved!!" : "Save Symptoms"}</div>
+            }            
         </div>
       ) : null}
     </div>
