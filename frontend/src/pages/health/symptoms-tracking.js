@@ -1,7 +1,9 @@
 import { DatePickerOptions } from '@/constants/Constants'
 import { AppContext } from '@/context/appContext'
+import axios from 'axios'
 import { useRouter } from 'next/router'
 import React, { useContext, useState } from 'react'
+import { toast } from 'react-toastify'
 import DatePicker from 'tailwind-datepicker-react'
 
 const symptomsTracking = () => {
@@ -9,6 +11,7 @@ const symptomsTracking = () => {
     const router = useRouter()
     const auth = useContext(AppContext)
     const { userData, setUserData } = auth
+    const [savedStatus, setSavedStatus] = useState(false)
 
     const symptoms = userData.symptoms.filter(symptom => {
         const date = symptom.date;
@@ -45,6 +48,38 @@ const symptomsTracking = () => {
 
         console.log(newSelectedSymptoms)
         setSelectedSymptoms(newSelectedSymptoms)
+    }
+
+    const onSaveSymptomsClickHandler = async () => {
+        if(savedStatus || selectedSymptoms.length == 0)
+            return
+
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NjQzNDc1NywianRpIjoiMTBhMDAxNTgtNTk2OC00NzQ0LTg5MjMtYjVkZTY0YjQ1MTNiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjkxMzczNTcwMDMiLCJuYmYiOjE2OTY0MzQ3NTcsImV4cCI6MTY5NjUyMTE1N30.WrSWvj27zVmXx659O07KQqdkrGY2Pazrf9CT-Sy20vU"
+
+        try {
+            const response = await axios.post(
+                'http://localhost:5000/savesymptoms',
+                {
+                    symptoms: userData.symptoms
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                  },
+                }
+            )
+
+            
+
+            if (response.data.success) {
+                toast.success('Symptoms saved successfully')
+                setSavedStatus(true)
+            }
+        }
+        catch (err) {
+            toast.error(err.response.data.msg)
+        }
     }
 
     return (
@@ -102,6 +137,12 @@ const symptomsTracking = () => {
 
             <div className='mt-[20px] ml-[20px] font-semibold text-[18px]'>Today's Log</div>
 
+            {selectedSymptoms.length == 0 &&
+                <div className='w-[400px] absolute m-auto text-center mt-[350px]'>
+                    Add symptoms you are experiencing today
+                </div>
+            }
+
             <div className='flex flex-col overflow-scroll gap-y-[10px] mb-[10px] mt-[20px]'>
                 {selectedSymptoms.map(symptom => {
                     console.log(symptom.level)
@@ -131,10 +172,16 @@ const symptomsTracking = () => {
                 })}
             </div>
 
-            <div className='w-[90%] min-h-[40px] flex items-center justify-center mt-auto mb-[20px] self-center rounded-[5px] bg-[#DE8F90] font-semibold text-white cursor-pointer'
-                onClick={onAddSymptomsClickHandler}
-            >Add Symptoms</div>
-
+            {selectedSymptoms.length == 0 ? 
+                <div className='w-[90%] min-h-[40px] flex items-center justify-center mt-auto mb-[20px] self-center rounded-[5px] bg-[#DE8F90] font-semibold text-white cursor-pointer'
+                    onClick={onAddSymptomsClickHandler}
+                >Add Symptoms</div>
+            :
+                <div className='w-[90%] min-h-[40px] flex items-center justify-center mt-auto mb-[20px] self-center rounded-[5px] bg-[#DE8F90] font-semibold text-white cursor-pointer'
+                    // onClick={onAddSymptomsClickHandler}
+                    onClick={onSaveSymptomsClickHandler}
+                >{savedStatus ? "Saved!!" : "Save Symptoms"}</div>
+            }            
         </div>
     )
 }

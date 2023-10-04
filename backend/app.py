@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from resources.aadhaar import Aadhaar
-from resources.user import (Signup, Login, Secure)
+from resources.user import (Signup, Login, SaveSymptoms, User)
 from mongo_engine import db
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
@@ -24,6 +24,10 @@ db.init_app(app)
 
 api.add_resource(Signup, "/signup")
 api.add_resource(Login, "/login")
+
+api.add_resource(SaveSymptoms, "/savesymptoms")
+api.add_resource(User, "/getUser")
+
 # api.add_resource(Secure, "/testingjwt")
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ class User(db.Document):
     age = db.StringField(required=True)
     pregnantDate = db.StringField(required=True)
     dueDate = db.StringField(required=True)
-    symptoms = db.ListField(db.StringField(), default=[])
+    symptoms = db.ListField(db.DictField(), required=False, default=[])
 
     meta = {'collection': 'users'}
 
@@ -21,7 +21,7 @@ class User(db.Document):
             return {"error": False, "data": user}
         
         except (DuplicateKeyError, NotUniqueError):
-            return {"error": True, "message": "User with same mobile already exists"}
+            return {"error": True, "message": "User with the same mobile already exists"}
         
         except:
             return {"error": True, "message": "Error adding user"}
@@ -36,4 +36,19 @@ class User(db.Document):
             return {"error": True, "message": "User does not exist"}
         
         except:
+            return {"error": True, "message": "Error getting user"}
+        
+    @classmethod
+    def add_symptoms(cls, mobile_number, symptoms):
+        try:
+            user = cls.objects.get(mobile_number=mobile_number)
+            user.symptoms.append(symptoms)
+            user.save()
+            return {"error": False, "data": user}
+        
+        except cls.DoesNotExist:
+            return {"error": True, "message": "User does not exist"}
+        
+        except Exception as e:
+            print(e)
             return {"error": True, "message": "Error getting user"}
