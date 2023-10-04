@@ -1,36 +1,29 @@
 import React from "react";
 import Navbar from "@/components/learning/Navbar";
-import ModuleCard from "@/components/learning/ModulesCard";
+import healthModules from "@/utils/healthModule";
+import HealthCard from "@/components/learning/HealthCard";
 
-const Health = () => {
+const HealthCare = () => {
   return (
     <div className="">
       <Navbar link={"healthcare"} />
       <div className="w-full flex flex-col px-[20px] ">
-        <h1 className="text-3xl font-bold">HealthCare Plan</h1>
+      <h1 className="text-3xl my-10 font-bold">HealthCare Plan</h1>
 
         <div className="flex flex-row ">
-          {/* <div className="prompt_layout">
-            {modules.map((module) => (
-              <ModuleCard
+          <div className="grid grid-cols-1 gap-y-8">
+            {healthModules.map((module) => (
+              <HealthCard
                 number={module.number}
-                color={module.color}
                 title={module.title}
-                content={module.content}
+                content={module.description}
               />
             ))}
-          </div> */}
-          <ModuleCard
-            number={1}
-            title={"Hello"}
-            content={
-              "jhgdjgdjhd dhkhhcdhhdcw  j wdckwhwdc kjcedhkdcwhdcw kjckdcwhcwhd hkwcd wdcucwdkhwdckc"
-            }
-          />
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Health;
+export default HealthCare;

@@ -16,7 +16,7 @@ const symptomsTracking = () => {
   const [aiResponse, setAiResponse] = useState("");
   const [askAi, setAskAi] = useState(false);
   const [loadingAI, setLoadingAI] = useState(false);
-
+  console.log(userData.symptoms);
   const symptoms = userData.symptoms.filter((symptom) => {
     const date = symptom.date;
     const today = new Date();
