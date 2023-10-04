@@ -1,0 +1,4 @@
+flask-mongoengine==1.0.0
+Flask-RESTful==0.3.10
+flask-jwt-extended==4.5.2
+bcrypt==4.0.1
