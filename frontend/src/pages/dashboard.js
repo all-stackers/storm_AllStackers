@@ -117,20 +117,21 @@ const dashboard = () => {
             <div className='flex overflow-x-auto space-x-2 h-[70px] py-[10px]'>
 
                 <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
-                    <h2 className='block font-bold text-[#b0aeae]'>Week</h2>
-                    <h2 className='block font-bold text-[#b0aeae]'>29</h2>
+                <h2 className='block font-bold text-[black]'>Week</h2>
+                    <h2 className='block font-bold text-[black]'>1</h2>
+                    
                 </div>
                 <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
                     <h2 className='block font-bold text-[#b0aeae]'>Week</h2>
-                    <h2 className='block font-bold text-[#b0aeae]'>30</h2>
+                    <h2 className='block font-bold text-[#b0aeae]'>2</h2>
                 </div>
                 <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
-                    <h2 className='block font-bold text-[black]'>Week</h2>
-                    <h2 className='block font-bold text-[black]'>31</h2>
+                <h2 className='block font-bold text-[#b0aeae]'>Week</h2>
+                    <h2 className='block font-bold text-[#b0aeae]'>3</h2>
                 </div>
                 <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
                     <h2 className='block font-bold text-[#b0aeae]'>Week</h2>
-                    <h2 className='block font-bold text-[#b0aeae]'>32</h2>
+                    <h2 className='block font-bold text-[#b0aeae]'>4</h2>
                 </div>
             </div>
             <div className='w-[100%] h-[250px]  my-[10px] flex justify-center items-center'>

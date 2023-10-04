@@ -16,7 +16,7 @@ const login = () => {
     useEffect(() => {
         console.log("inside login page")
         if (appContext.isUserLoggedIn) {
-            router.push('/home')
+            router.push('/dashboard')
         }
     }, [appContext])
 
@@ -51,12 +51,10 @@ const login = () => {
             {!appContext.checkingIfLoggedIn
             ?
             <div className={`flex flex-row h-full`}>
-                {/* left container */}
-                <div className={`w-[55%] h-full box-border
-                `}></div>
+                
 
                 {/* right container */}
-                <div className={`flex flex-col w-[45%] px-[70px] py-[30px] min-h-full h-auto box-border border-l-[1px] text-dark1`}>
+                <div className={`flex flex-col w-[100%] px-[30px] py-[30px] min-h-full h-auto box-border border-l-[1px] text-dark1`}>
                     <div className="text-[26px] font-Poppins mb-[45px] mt-[40px] text-center">Welcome Back!</div>
 
                     <form className="mt-[40px] justify-center" action="" onSubmit={onLoginClickHandler}>

@@ -2,18 +2,21 @@ import React, { useState } from 'react'
 import DatePicker from "tailwind-datepicker-react"
 import { DatePickerOptions } from '../../constants/Constants'
 import { useRouter } from 'next/router'
+import ScaleLoader from "react-spinners/ScaleLoader";
+
 
 const SignupForm = ({
-    firstName,
-    lastName,
-    gender,
+    mname,
+    age,
+    type,
+    Pdate,
     mobileNumber,
     password,
     isSigningup,
-    setFirstName,
-    setLastName,
-    setDob,
-    setGender,
+    setMname,
+    setAge,
+    setPdate,
+    setType,
     setMobileNumber,
     setPassword,
     onSignupClickHandler
@@ -29,21 +32,21 @@ const SignupForm = ({
             <div className="flex flex-col gap-y-[35px]">
                 <div className="flex flex-row gap-x-[30px]">
                     <div className="w-[45%]">
-                        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 ">First name</label>
-                        <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="John" required
-                            value={firstName}
+                        <label htmlFor="Name" className="block mb-2 text-sm font-medium text-gray-900 ">Mother's Name</label>
+                        <input type="text" id="Name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="John" required
+                            value={mname}
                             onChange={(event) => {
-                                setFirstName(event.target.value)
+                                setMname(event.target.value)
                             }}
                         />
                     </div>
 
                     <div className="w-[45%]">
-                        <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900 ">Last name</label>
-                        <input type="text" id="last_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Doe" required
-                            value={lastName}
+                        <label htmlFor="Mobile number" className="block mb-2 text-sm font-medium text-gray-900 ">Age</label>
+                        <input type="number" id="Mobile" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Doe" required
+                            value={age}
                             onChange={(event) => {
-                                setLastName(event.target.value)
+                                setAge(event.target.value)
                             }}
                         />
                     </div>
@@ -51,27 +54,26 @@ const SignupForm = ({
 
                 <div className="flex flex-row gap-x-[30px]">
                     <div className="flex flex-col w-[45%]">
-                        <label htmlFor="" className="block mb-2 text-sm font-medium text-gray-900 cursor-pointer">Date of Birth</label>
+                        <label htmlFor="" className="block mb-2 text-sm font-medium text-gray-900 cursor-pointer">Pregnancy Date</label>
                         <div className="relative cursor-pointer">
-                            <DatePicker onChange={(e) => {setDob(e)}} id="dob" options={DatePickerOptions} show={show} setShow={handleClose} />
+                            <DatePicker onChange={(e) => {setPdate(e)}} id="Pdate" options={DatePickerOptions} show={show} setShow={handleClose} />
                         </div>
                     </div>
                     
                     <div className="flex flex-col w-[45%]">
-                        <label htmlFor="gender" className="relative block mb-2 text-sm font-medium text-gray-900 ">Gender</label>
+                        <label htmlFor="type" className="relative block mb-2 text-sm font-medium text-gray-900 ">Type</label>
                         <select 
-                            id="gender" 
+                            id="type" 
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             required
-                            value={gender}
+                            value={type}
                             onChange={(event) => {
-                                setGender(event.target.value)
+                                setType(event.target.value)
                             }}
                         >
                             <option value="">Select your gender</option>
-                            <option value="female">Female</option>
-                            <option value="male">Male</option>
-                            <option value="others">Others</option>
+                            <option value="female">Pregnant Mother</option>
+                            <option value="male">After Pregnancy</option>
                         </select>
                     </div>
                 </div>
@@ -80,7 +82,7 @@ const SignupForm = ({
                     {/* mobile number */}
                     <div className="w-[45%]">
                         <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 ">Phone number</label>
-                        <input type="tel" id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="9137XXXXXX" pattern="[0-9]{10}" required
+                        <input type="number" id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="9137XXXXXX" pattern="[0-9]{10}" required
                             value={mobileNumber}
                             onChange={(event) => {
                                 setMobileNumber(event.target.value)
