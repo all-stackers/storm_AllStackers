@@ -28,26 +28,22 @@ const prenatalCenters = [
     address: "567 Pine Street, Hamletville, USA",
     distance: "3.0 miles",
     ratings: 4.7,
-  },
-  {
+  },{
     name: "Miracle Moments Prenatal Clinic",
     address: "567 Pine Street, Hamletville, USA",
     distance: "3.0 miles",
     ratings: 4.7,
-  },
-  {
+  },{
     name: "Miracle Moments Prenatal Clinic",
     address: "567 Pine Street, Hamletville, USA",
     distance: "3.0 miles",
     ratings: 4.7,
-  },
-  {
+  },{
     name: "Miracle Moments Prenatal Clinic",
     address: "567 Pine Street, Hamletville, USA",
     distance: "3.0 miles",
     ratings: 4.7,
-  },
-  {
+  },{
     name: "Miracle Moments Prenatal Clinic",
     address: "567 Pine Street, Hamletville, USA",
     distance: "3.0 miles",
