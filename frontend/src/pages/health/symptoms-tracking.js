@@ -1,13 +1,50 @@
 import { DatePickerOptions } from '@/constants/Constants'
+import { AppContext } from '@/context/appContext'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import DatePicker from 'tailwind-datepicker-react'
 
 const symptomsTracking = () => {
+    const [level, setLevel] = useState(1)
     const router = useRouter()
+    const auth = useContext(AppContext)
+    const { userData, setUserData } = auth
+
+    const symptoms = userData.symptoms.filter(symptom => {
+        const date = symptom.date;
+        const today = new Date();
+        const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    
+        return date.getTime() === todayDate.getTime();
+    });
+    
+    const [selectedSymptoms, setSelectedSymptoms] = useState(symptoms.length > 0 ? symptoms[0].symptoms : [])
+
+    console.log(selectedSymptoms)
 
     const onBackClickHandler = () => {
         router.back()
+    }
+
+    const onAddSymptomsClickHandler = () => {
+        router.push('/health/select-symptoms')
+    }
+
+    const onChangeSymptomLevelHandler = (symptom, level) => {
+        // find that symptom in selectedSymptoms and update it with the new level
+        const newSelectedSymptoms = selectedSymptoms.map(symptomObj => {
+            if (symptomObj.id === symptom.id) {
+                return {
+                    ...symptomObj,
+                    level
+                }
+            } else {
+                return symptomObj
+            }
+        })
+
+        console.log(newSelectedSymptoms)
+        setSelectedSymptoms(newSelectedSymptoms)
     }
 
     return (
@@ -64,6 +101,39 @@ const symptomsTracking = () => {
             </div> 
 
             <div className='mt-[20px] ml-[20px] font-semibold text-[18px]'>Today's Log</div>
+
+            <div className='flex flex-col overflow-scroll gap-y-[10px] mb-[10px] mt-[20px]'>
+                {selectedSymptoms.map(symptom => {
+                    console.log(symptom.level)
+                    return (
+                        <div className={`flex flex-col w-[90%] mx-auto rounded-[10px] px-[5px] py-[10px] ${symptom.type == "Physical" && "bg-[#FFF1F9]"} ${symptom.type == "Emotional" && "bg-[#F1FFF2]"} ${symptom.type == "Other" && "bg-[#F6F3FF]"}`}>
+                            <div className='flex flex-row items-center justify-center'>
+                                <div className='font-semitext-[16px]'>{symptom.name}</div>
+                            </div>
+
+                            <div className='flex flex-col w-[90%] self-center justify-between'>
+                                <div className={`${symptom.type == "Physical" && "bg-[#da7bae]"} ${symptom.type == "Emotional" && "bg-[#4EA670]"} ${symptom.type == "Other" && "bg-[#838CD8]"} h-[2px] mt-[25px] mb-[15px] relative rounded-sm`}>
+                                    <div className={`absolute ${symptom.type === "Physical" ? "bg-[#da7bae]" : (symptom.type === "Emotional" ? "bg-[#4EA670]" : "bg-[#838CD8]")} h-[4px] ${symptom.level == 1 && "w-[2%]"} ${symptom.level == 2 && "w-[50%]"} ${symptom.level == 3 && "w-[100%]"} mt-[-1px] flex flex-row items-center rounded-sm`}>
+                                        <div className={`rounded-full w-[10px] h-[10px] ml-auto ${symptom.type == "Physical" && "bg-[#da7bae]"} ${symptom.type == "Emotional" && "bg-[#4EA670]"} ${symptom.type == "Other" && "bg-[#838CD8]"}`}></div>
+                                    </div>
+                                </div>
+
+                                
+
+                                <div className='flex flex-row justify-between'>
+                                    <div onClick={() => onChangeSymptomLevelHandler(symptom, 1)}>Low</div>
+                                    <div onClick={() => onChangeSymptomLevelHandler(symptom, 2)}>Medium</div>
+                                    <div onClick={() => onChangeSymptomLevelHandler(symptom, 3)}>High</div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+
+            <div className='w-[90%] min-h-[40px] flex items-center justify-center mt-auto mb-[20px] self-center rounded-[5px] bg-[#DE8F90] font-semibold text-white cursor-pointer'
+                onClick={onAddSymptomsClickHandler}
+            >Add Symptoms</div>
 
         </div>
     )
