@@ -3,12 +3,13 @@ from pymongo.errors import DuplicateKeyError
 from mongoengine import NotUniqueError
 
 class User(db.Document):
-    # username = db.StringField(required=True)
     mobile_number = db.StringField(required=True, unique=True)
     password = db.StringField(required=True)
-    # email = db.StringField(required=True)
-    # first_name = db.StringField(required=True)
-    # last_name = db.StringField(required=True)
+    name = db.StringField(required=True)
+    age = db.StringField(required=True)
+    pregnantDate = db.StringField(required=True)
+    dueDate = db.StringField(required=True)
+    symptoms = db.ListField(db.StringField(), default=[])
 
     meta = {'collection': 'users'}
 
