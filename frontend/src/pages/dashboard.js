@@ -3,8 +3,9 @@ import {
     buildStyles
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
+import { AppContext } from "@/context/appContext";
 
 
 
@@ -114,11 +115,49 @@ const dashboard = () => {
             ]
         }
     }
+    const auth = useContext(AppContext)
+    const { userData, setUserData } = auth
+    const [currentDay, setcurrentDay] = useState(0);
+    const [weeks, setWeeks] = useState(0);
+    const [date1, setDate1] = useState('');
+  const [date2, setDate2] = useState('');
+  const [difference, setDifference] = useState(0);
+    useEffect(() => {
+        if (!auth.checkingIfLoggedIn && !auth.isUserLoggedIn) {
+            router.push('/login')
+        }
+        else 
+        setUserData(userData)
+        console.log("details",userData);
+        setDate1(userData?.dueDate);
+        const d = new Date();
+        setDate2(d);
+        
+            const date1Obj = new Date(date1);
+            const date2Obj = new Date(date2);
+        
+            if (!isNaN(date1Obj) && !isNaN(date2Obj)) {
+              const timeDifference = Math.abs(date2Obj - date1Obj);
+              const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+              setDifference(daysDifference);
+              const cDate=Math.ceil(((224-daysDifference)/224)*100);
+              setcurrentDay(cDate)
+              setWeeks(Math.floor((224-cDate)/7))
+            } else {
+              setDifference('Invalid date input(s).');
+            }
+          
+    }, [auth])
+
+    // Function to calculate the difference between the two dates
+  
+  console.log("difference",difference);
+
     return (
         <div className='h-[100%] p-[20px]'>
-            <div className='flex overflow-x-auto space-x-2 h-[70px] py-[10px]'>
-
-                <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
+            <div className='flex overflow-x-auto space-x-2 h-[70px] justify-center items-center'>
+                <h1 className="text-[#265eba] font-bold text-[30px]"> It's {weeks} Week</h1>
+                {/* <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
                 <h2 className='block font-bold text-[black]'>Week</h2>
                     <h2 className='block font-bold text-[black]'>1</h2>
                     
@@ -134,16 +173,16 @@ const dashboard = () => {
                 <div className=' h-[100%] min-w-[80px] flex flex-col justify-center items-center'>
                     <h2 className='block font-bold text-[#b0aeae]'>Week</h2>
                     <h2 className='block font-bold text-[#b0aeae]'>4</h2>
-                </div>
+                </div> */}
             </div>
-            <div className='w-[100%] h-[250px]  my-[10px] flex justify-center items-center'>
-                <img className='absolute w-[100px] h-[100px]' src='/assets/infant.png' alt="" />
-                <div className=' w-[250px] h-[200px] flex justify-center items-center'>
+            <div className='relative w-[100%] h-[250px]  mb-[10px] flex flex-col justify-center items-center'>
+                <img className='absolute bottom-[35%]  w-[100px] h-[100px] rounded-[50px]' src='/assets/infant.png' alt="" />
+                <div className=' w-[250px] h-[200px] flex flex-col justify-center items-center '>
 
 
                     <div style={{ width: 170, height: 170 }}>
                         <CircularProgressbar
-                            value="80"
+                            value={currentDay}
                             backgroundPadding={6}
                             styles={buildStyles({
                                 pathColor: "#265eba",
@@ -153,9 +192,11 @@ const dashboard = () => {
                         />
 
                     </div>
-
+                    
 
                 </div>
+                <h1 className="text-[#265eba] font-bold">{currentDay} days to go!</h1>
+
             </div>
             <div className='rounded-[10px] py-[10px]'>
 
