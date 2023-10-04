@@ -2,7 +2,7 @@ import { DatePickerOptions } from "@/constants/Constants";
 import { AppContext } from "@/context/appContext";
 import axios from "axios";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import DatePicker from "tailwind-datepicker-react";
 import { ScaleLoader } from "react-spinners";
@@ -16,21 +16,33 @@ const symptomsTracking = () => {
   const [aiResponse, setAiResponse] = useState("");
   const [askAi, setAskAi] = useState(false);
   const [loadingAI, setLoadingAI] = useState(false);
+  const [symptoms, setSymptoms] = useState([]);
 
-  const symptoms = userData.symptoms.filter((symptom) => {
-    const date = symptom.date;
-    const today = new Date();
-    const todayDate = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate()
-    );
+  useEffect(() => {
+    console.log(userData)
+    if (!userData) return;
+    const smp = userData?.symptoms?.filter((symptom) => {
+      const date = new Date(symptom.date);
+      const today = new Date();
+      const todayDate = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate()
+      );
+  
+      console.log(date)
+  
+      return date.getTime() === todayDate.getTime();
+    });
 
-    return date.getTime() === todayDate.getTime();
-  });
+    setSymptoms(smp);
+    setSelectedSymptoms(smp?.symptoms);
+
+  }, [userData]);
+
 
   const [selectedSymptoms, setSelectedSymptoms] = useState(
-    symptoms.length > 0 ? symptoms[0].symptoms : []
+    symptoms?.length > 0 ? symptoms[0].symptoms : []
   );
 
   const onAskAIhandler = () => {
@@ -107,9 +119,7 @@ const symptomsTracking = () => {
         }
       );
 
-      console.log(response.data);
-
-      if (response.data.success) {
+      if(!response.data.error) {
         toast.success("Symptoms saved successfully");
         setSavedStatus(true);
       }
@@ -281,7 +291,10 @@ const symptomsTracking = () => {
             <div
               className="w-[90%] min-h-[40px] flex items-center justify-center mt-auto mb-[20px] self-center rounded-[5px] bg-[#DE8F90] font-semibold text-white cursor-pointer"
               // onClick={onAddSymptomsClickHandler}
-              onClick={() => setSavedStatus(true)}
+              onClick={() => {
+                setSavedStatus(true);
+                onSaveSymptomsClickHandler();
+              }}
             >
               {savedStatus ? "Saved!!" : "Save Symptoms"}
             </div>
@@ -290,8 +303,8 @@ const symptomsTracking = () => {
               className="w-[90%] min-h-[40px] flex items-center justify-center mt-auto mb-[20px] self-center rounded-[5px] bg-[#DE8F90] font-semibold text-white cursor-pointer"
               // onClick={onAddSymptomsClickHandler}
               onClick={() => {
-                setAskAi(true);
                 onAskAIhandler();
+                setAskAi(true);
               }}
             >
               Ask AI
