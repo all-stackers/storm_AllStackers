@@ -17,13 +17,8 @@ const healthModules = [
     description:
       "Equip yourself with effective strategies to cope with common discomforts like morning sickness, fatigue, and heartburn. Learn how to enhance your comfort and well-being during pregnancy.",
     content: (
-      <div class="container mx-auto py-8">
-        <h1 class="text-3xl font-bold mb-4">Managing Pregnancy Discomforts</h1>
-
+      <div class="mx-auto">
         <div class="mb-6">
-          <h2 class="text-2xl font-semibold mb-2">
-            Common Discomforts During Pregnancy
-          </h2>
           <p>
             Pregnancy can bring about various discomforts due to hormonal
             changes and physical strain. Here are some of the common
