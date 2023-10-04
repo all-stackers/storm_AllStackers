@@ -66,6 +66,7 @@ const signup = () => {
             localStorage.setItem('access_token', data.access_token)
             toast.success("Signed up successfully")
             appContext.setIsUserLoggedIn(true)
+            router.push('/dashboard')
         }
         catch (error) {
             const errorMessage = error.response.data.message
