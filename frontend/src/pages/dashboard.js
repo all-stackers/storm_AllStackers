@@ -4,10 +4,12 @@ import {
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 
 
 const dashboard = () => {
+    const router = useRouter()
     const cuurentWeek = 3;
     const weeklyData = {
         1: {
@@ -160,11 +162,27 @@ const dashboard = () => {
                 <h1 className='text-[17px] font-bold mb-[15px] ml-[10px]'>Services</h1>
                 <div className="flex overflow-x-auto space-x-3 h-[100px] py-[10px] rounded-[10px]">
 
-                    <div className='h-[100%] min-w-[80px] bg-[#97f7cc] rounded-[10px]  shadow-2xl'></div>
-                    <div className='h-[100%] min-w-[80px] bg-[#f7adc6] rounded-[10px]  shadow-2xl'></div>
-                    <div className='h-[100%] min-w-[80px] bg-[#ffbc38] rounded-[10px]  shadow-2xl'></div>
-                    <div className='h-[100%] min-w-[80px] bg-[#ac9cf9] rounded-[10px]  shadow-2xl'></div>
-                    <div className='h-[100%] min-w-[80px] bg-[#97f7cc] rounded-[10px]  shadow-2xl'></div>
+                    <div className='h-[100%] min-w-[80px] bg-[#58ce98] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]'
+                    onClick={()=>router.push("/prenatal-care")}
+                    >
+                        <h1 className="text-[white] font-bold text-center">Prenatal Care</h1>
+                    </div>
+                    <div className='h-[100%] min-w-[80px] bg-[#f7adc6] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]'
+                    onClick={()=>router.push("/dailyfood")}
+                    >
+                    <h1 className="text-[white] font-bold text-center">Ai Food Bot</h1>
+                    </div>
+                    <div className='h-[100%] min-w-[80px] bg-[#ffbc38] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]'
+                     onClick={()=>router.push("/vitals/data")}
+                    >
+                    <h1 className="text-[white] font-bold text-center">Health Matrics</h1>
+                    </div>
+                    <div className='h-[100%] min-w-[80px] bg-[#ac9cf9] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]'>
+                    <h1 className="text-[white] font-bold text-center">Learning series</h1>
+                    </div>
+                    <div className='h-[100%] min-w-[80px] bg-[#58ce98] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]'>
+                    <h1 className="text-[white] font-bold text-center">Nearest Hospitals</h1>
+                    </div>
 
                 </div>
 
