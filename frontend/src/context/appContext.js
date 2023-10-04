@@ -23,6 +23,7 @@ const AppContextProvider = ({ children }) => {
         .then(result => {
             console.log("user details: ", result.data)
             setUserData(result.data)
+            
         })
         .catch(error => console.log('error', error));
     }
