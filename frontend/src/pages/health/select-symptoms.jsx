@@ -118,15 +118,15 @@ const selectSymptoms = () => {
     const auth = useContext(AppContext)
     const { userData, setUserData } = auth
 
-    const symptoms = userData.symptoms.filter(symptom => {
-        const date = symptom.date;
+    const symptoms = userData?.symptoms?.filter(symptom => {
+        const date = new Date(symptom.date);
         const today = new Date();
         const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     
         return date.getTime() === todayDate.getTime();
     });
     
-    const [selectedSymptoms, setSelectedSymptoms] = useState(symptoms.length > 0 ? symptoms[0].symptoms : [])
+    const [selectedSymptoms, setSelectedSymptoms] = useState(symptoms?.length > 0 ? symptoms[0].symptoms : [])
 
     const onBackClickHandler = () => {
         router.back()
@@ -151,7 +151,7 @@ const selectSymptoms = () => {
 
         const newUserData = {
             ...userData,
-            symptoms: [...userData.symptoms.filter(symptom => symptom.date.getTime() != newDate.getTime()), newSymptoms]
+            symptoms: [...userData.symptoms.filter(symptom => new Date(symptom.date).getTime() != newDate.getTime()), newSymptoms]
         }
 
         setUserData(newUserData)
