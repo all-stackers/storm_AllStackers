@@ -10,14 +10,16 @@ const signup = () => {
     const appContext = useContext(AppContext)
     const router = useRouter()
 
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [dob, setDob] = useState('')
-    const [gender, setGender] = useState('')
+    const [mname, setMname] = useState('')
+    const [age, setAge] = useState(0)
+    const [type, setType] = useState('')
+    const [Pdate,  setPdate] = useState('')
+    const [dueDate,  setDuedate] = useState(0)
     const [mobileNumber, setMobileNumber] = useState('')
     const [password, setPassword] = useState('')
 
     const [isSigningup, setIsLoggingIn] = useState(false)
+
 
     useEffect(() => {
         console.log("inside Signup page")
@@ -29,11 +31,18 @@ const signup = () => {
     const onSignupClickHandler = async (event) => {
         event.preventDefault()
         setIsLoggingIn(true)
+        setDuedate()
 
-        console.log("firstName: ", firstName)
-        console.log("lastName: ", lastName)
-        console.log("dob: ", dob)
-        console.log("gender: ", gender)
+        // const currentDate = new Date();
+    const futureDate = new Date(Pdate);
+    futureDate.setDate(Pdate.getDate() + 224);
+    setDuedate(futureDate.toDateString());
+    
+        console.log("firstName: ", mname)
+        console.log("age: ", age)
+        console.log("type: ", type)
+        console.log("pdate: ", Pdate)
+        console.log("DueDatedate: ", dueDate)
         console.log("mobileNumber: ", mobileNumber)
         console.log("password: ", password)
 
@@ -45,7 +54,11 @@ const signup = () => {
         try {
             const response = await axios.post('http://localhost:5000/signup', {
                 mobile_number: mobileNumber,
-                password: password
+                password: password,
+                name:mname,
+                age:age,
+                pregnantDate:Pdate,
+                dueDate:dueDate
             })
 
             const data = response.data
@@ -64,39 +77,39 @@ const signup = () => {
             setIsLoggingIn(false)
         }
     }
-
+    console.log("duedate: ",dueDate)
     return (
         <>
             {!appContext.checkingIfLoggedIn
-            ?
-            <div className={`flex flex-row h-full`}>
-                {/* left container */}
-                <div className={`w-[55%] h-full box-border
-                `}></div>
+                ?
+                <div className={`flex flex-row h-full`}>
 
-                {/* right container */}
-                <div className={`flex flex-col w-[45%] px-[70px] py-[30px] min-h-full h-auto box-border border-l-[1px] text-dark1`}>
-                    <div className="text-[26px] font-Poppins mb-[45px] mt-[40px] text-center">Let's create an account !</div>
-                    <SignupForm 
-                        firstName={firstName}
-                        lastName={lastName}
-                        gender={gender}
-                        mobileNumber={mobileNumber}
-                        password={password}
-                        isSigningup={isSigningup}
-                        setFirstName={setFirstName}
-                        setLastName={setLastName}
-                        setDob={setDob}
-                        setGender={setGender}
-                        setMobileNumber={setMobileNumber}
-                        setPassword={setPassword}
-                        onSignupClickHandler={onSignupClickHandler}
-                    />
+
+                    {/* right container */}
+                    <div className={`flex flex-col w-[100%] px-[30px] py-[30px] min-h-full h-auto box-border border-l-[1px] text-dark1`}>
+                        <div className="text-[26px] font-Poppins mb-[45px] mt-[40px] text-center">Let's create an account !</div>
+                        <SignupForm
+                            mname={mname}
+                            age={age}
+                            type={type}
+                            Pdate={Pdate}
+                            mobileNumber={mobileNumber}
+                            password={password}
+                            isSigningup={isSigningup}
+                            setMname={setMname}
+                            setAge={setAge}
+                            setPdate={setPdate}
+                            setType={setType}
+                            setMobileNumber={setMobileNumber}
+                            setPassword={setPassword}
+                            onSignupClickHandler={onSignupClickHandler}
+
+                        />
+                    </div>
                 </div>
-            </div>   
-            : 
+                :
                 <div className='flex flex-col gap-y-[10px] items-center justify-center m-auto text-[14px] text-[#606060]'>
-                    <ScaleLoader  color='#7C3AED'/>
+                    <ScaleLoader color='#7C3AED' />
                     Hold on!
                 </div>
             }
