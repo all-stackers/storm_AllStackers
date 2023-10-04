@@ -5,6 +5,9 @@ export const AppContext = createContext()
 const AppContextProvider = ({ children }) => {
     const [checkingIfLoggedIn, setCheckingIfLoggedIn] = useState(true)
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
+    const [userData, setUserData] = useState({
+        symptoms: [],
+    })
 
     useEffect(() => {
         const token = localStorage.getItem('access_token')
@@ -23,7 +26,9 @@ const AppContextProvider = ({ children }) => {
     const providerValue = {
         isUserLoggedIn,
         checkingIfLoggedIn,
-        setIsUserLoggedIn
+        setIsUserLoggedIn,
+        userData,
+        setUserData,
     }
 
     return (
