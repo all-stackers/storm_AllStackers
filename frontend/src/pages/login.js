@@ -24,7 +24,7 @@ const login = () => {
         event.preventDefault()
         setIsLoggingIn(true)
         try {
-            const response = await axios.post('http://192.168.1.109:5000/login', {
+            const response = await axios.post('https://allstackers3.onrender.com/login', {
                 mobile_number: event.target.phone.value,
                 password: event.target.password.value
             })

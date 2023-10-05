@@ -17,9 +17,9 @@ class Signup(Resource):
         parser.add_argument("dueDate", type=str, required=True, help="due_date is required")
         args = parser.parse_args()
 
-        args["password"] = bcrypt.hashpw(
-            args["password"].encode("utf-8"), bcrypt.gensalt()
-        ).decode("utf-8")
+        # args["password"] = bcrypt.hashpw(
+        #     args["password"].encode("utf-8"), bcrypt.gensalt()
+        # ).decode("utf-8")
     
         response = UserModel.add_user(args)
         if response["error"]:
@@ -47,10 +47,8 @@ class Login(Resource):
         
         user = response["data"]
 
-        passwordMatch = bcrypt.checkpw(
-            args["password"].encode("utf-8"), user.password.encode("utf-8")
-        )
-
+        passwordMatch = args["password"] == user.password
+        # 
         if not passwordMatch:
             return {"error": True, "message": "Invalid credentials"}, 401
         

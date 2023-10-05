@@ -47,7 +47,7 @@ const symptomsTracking = () => {
       redirect: "follow",
     };
 
-    fetch("http://192.168.1.109:5000/aiSymptoms", requestOptions)
+    fetch("https://allstackers3.onrender.com/aiSymptoms", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);
@@ -95,7 +95,7 @@ const symptomsTracking = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.1.109:5000/savesymptoms",
+        "https://allstackers3.onrender.com/savesymptoms",
         {
           symptoms: userData.symptoms,
         },

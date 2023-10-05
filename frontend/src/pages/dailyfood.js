@@ -16,7 +16,7 @@ const dailyfood = () => {
             // setData(null)
             // setLoading(true)
             // try {
-            //     const response = await axios.post('http://192.168.1.109:5000/predictDisease', {
+            //     const response = await axios.post('https://allstackers3.onrender.com/predictDisease', {
             //         symptoms: symptoms
             //     })
 

@@ -19,7 +19,7 @@ const AppContextProvider = ({ children }) => {
         redirect: 'follow'
         };
 
-        fetch("http://192.168.1.109:5000/getUser", requestOptions)
+        fetch("https://allstackers3.onrender.com/getUser", requestOptions)
         .then(response => response.json())
         .then(result => {
             console.log("user details: ", result.data)

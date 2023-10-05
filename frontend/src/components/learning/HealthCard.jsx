@@ -9,7 +9,7 @@ const HealthCard = ({ number, title, content }) => {
   const translateText = async (text) => {
     setLoading(true);
     try {
-      const response = await fetch("http://192.168.1.109:5000/translate", {
+      const response = await fetch("https://allstackers3.onrender.com/translate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
