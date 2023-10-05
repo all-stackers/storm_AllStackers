@@ -12,3 +12,4 @@ python_bcrypt==0.3.2
 twilio==8.8.0
 python-dotenv
 gunicorn==19.7.1
+pydantic==1.10.2
