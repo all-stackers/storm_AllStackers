@@ -49,7 +49,7 @@ const Navbar = () => {
       <div
         className="flex flex-col font-medium font-Lexend text-[20px] cursor-pointer"
         onClick={() => {
-          router.push("/");
+          router.push("/dashboard");
         }}
       >
         <p className="text-gray-700 text-[15px]">Good {greeting}</p>

@@ -202,12 +202,37 @@ const dashboard = () => {
           <p className="text-gray-500 text-[10px]">Weight</p>
         </div>
       </div>
+      <div
+        onClick={() => {
+          const userResponse = window.confirm(
+            "Do you want to proceed with this action?"
+          );
 
+          if (userResponse) {
+            if ("geolocation" in navigator) {
+              navigator.geolocation.getCurrentPosition(
+                (position) => {
+                  const { latitude, longitude } = position.coords;
+                  console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+                },
+                (error) => {
+                  console.error("Error getting user's location:", error);
+                }
+              );
+            } else {
+              console.error("Geolocation is not available in this browser.");
+            }
+          }
+        }}
+        className="px-7 py-2 my-5 text-white bg-red-500 rounded-full w-fit flex mx-auto"
+      >
+        Emergency SOS
+      </div>
       <div className="rounded-[10px] py-[10px]">
-        <h1 className="text-[17px] font-bold mb-[15px] ml-[10px]">Services</h1>
-        <div className="flex overflow-x-auto space-x-3 h-[100px] py-[10px] rounded-[10px]">
+        <h1 className="text-[18px] font-bold mb-[15px]">Services</h1>
+        <div className="flex flex-wrap justify-center gap-y-4 gap-x-6 py-[10px] rounded-[10px]">
           <div
-            className="h-[100%] min-w-[80px] bg-[#58ce98] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]"
+            className="h-[60px] w-[90px] bg-[#58ce98] rounded-[10px] cursor-pointer flex justify-center items-center"
             onClick={() => router.push("/prenatal-care")}
           >
             <h1 className="text-[white] font-bold text-center">
@@ -215,13 +240,13 @@ const dashboard = () => {
             </h1>
           </div>
           <div
-            className="h-[100%] min-w-[80px] bg-[#f7adc6] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]"
+            className="h-[60px] w-[90px] bg-[#f7adc6] rounded-[10px] cursor-pointer flex justify-center items-center"
             onClick={() => router.push("/dailyfood")}
           >
             <h1 className="text-[white] font-bold text-center">Ai Food Bot</h1>
           </div>
           <div
-            className="h-[100%] min-w-[80px] bg-[#ffbc38] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]"
+            className="h-[60px] w-[90px] bg-[#ffbc38] rounded-[10px] cursor-pointer flex justify-center items-center"
             onClick={() => router.push("/vitals/data")}
           >
             <h1 className="text-[white] font-bold text-center">
@@ -229,16 +254,24 @@ const dashboard = () => {
             </h1>
           </div>
           <div
-            className="h-[100%] min-w-[80px] bg-[#ac9cf9] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]"
+            className="h-[60px] w-[90px] bg-[#ac9cf9] rounded-[10px] cursor-pointer flex justify-center items-center"
             onClick={() => router.push("/afterbirth/massage/dash")}
           >
             <h1 className="text-[white] font-bold text-center">
               Massage Technique
             </h1>
           </div>
-          <div className="h-[100%] min-w-[80px] bg-[#58ce98] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]">
+          <div className="h-[60px] w-[90px] bg-[#58ce98] rounded-[10px] cursor-pointer flex justify-center items-center">
             <h1 className="text-[white] font-bold text-center">
               Nearest Hospitals
+            </h1>
+          </div>
+          <div
+            className="h-[60px] w-[90px] bg-blue-300 rounded-[10px] cursor-pointer flex justify-center items-center"
+            onClick={() => router.push("/health/symptoms-tracking")}
+          >
+            <h1 className="text-[white] font-bold text-center">
+              Symptoms Tracker
             </h1>
           </div>
         </div>
