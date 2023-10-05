@@ -224,8 +224,10 @@ const dashboard = () => {
                     >
                     <h1 className="text-[white] font-bold text-center">Health Matrics</h1>
                     </div>
-                    <div className='h-[100%] min-w-[80px] bg-[#ac9cf9] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]'>
-                    <h1 className="text-[white] font-bold text-center">Learning series</h1>
+                    <div className='h-[100%] min-w-[80px] bg-[#ac9cf9] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]'
+                    onClick={()=>router.push("/afterbirth/massage/dash")}
+                    >
+                    <h1 className="text-[white] font-bold text-center">Massage Technique</h1>
                     </div>
                     <div className='h-[100%] min-w-[80px] bg-[#58ce98] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]'>
                     <h1 className="text-[white] font-bold text-center">Nearest Hospitals</h1>
