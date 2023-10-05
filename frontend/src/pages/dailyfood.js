@@ -1,17 +1,15 @@
-import axios from 'axios'
 import React, { useState } from 'react'
 import { ScaleLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
+import axios from 'axios'
 
 const dailyfood = () => {
-    const [symptoms, setSymptoms] = useState([])
+    const [symptoms, setSymptoms] = useState("")
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(false)
 
     const onEnterPress = async (event) => {
         if (event.key === 'Enter') {
-            console.log("symptoms: ")
-            event.preventDefault()
             if (symptoms.length === 0) {
                 toast.error('Please enter the Data')
                 return
@@ -23,11 +21,13 @@ const dailyfood = () => {
                     food: symptoms
                 },
                 {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('access_token')}`
-                    
+                    "headers": {
+                        "content-type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem('access_token')}`
                     }
-                })
+                }
+                )
+
                 const data = response.data
                 setData(data.data)
             }
@@ -49,25 +49,9 @@ const dailyfood = () => {
             </div>
 
             {data !== null && <div className='flex flex-col w-full font-medium text-[24px]'>
-                <div className='text-[24px]'>
-                    <span className='text-dark2 mr-[15px]'>Symptoms &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </span>
-                    {data.symptoms}
-                </div>
-                <div className='text-[24px] mt-[20px]'>
-                    <span className='text-dark2 mr-[15px]'>Disease Name &nbsp;: </span>
-                {data.DiseaseName}</div>
-                <div className='text-[24px] mt-[20px]'>
-                    <span className='text-dark2 mr-[15px]'>Treatments &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </span>
-                </div>
-                <div className='flex flex-col gap-y-[15px] mt-[30px]'>
-                {data.Treatment.map((d, index) => {
-                    return (
-                        <div className='flex flex-row gap-x-[10px]'>
-                            <div>{index+1}.</div>
-                            <div>{d.treatmentName} : {d.treatment}</div>
-                        </div>
-                    )
-                })}
+                <div className='text-[20px]'>
+                   
+                    {data}
                 </div>
             </div>}
 
