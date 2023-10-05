@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 const Navbar = ({ link }) => {
-  console.log(link);
   return (
     <>
       <div className="flex flex-row min-h-[60px] items-center justify-center relative">

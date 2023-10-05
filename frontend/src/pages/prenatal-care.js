@@ -8,16 +8,16 @@ const PrenatalCenter = () => {
   const [jsonData, setJsonData] = useState(null);
   const [displayData, setDisplayData] = useState([]);
 
-  // useEffect(() => {
-  //   fetch("http://192.168.1.120:3000/schedule.json")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       // Update the component's state with the JSON data
-  //       setJsonData(data);
+  useEffect(() => {
+    fetch("http://localhost:3000/schedule.json")
+      .then((response) => response.json())
+      .then((data) => {
+        // Update the component's state with the JSON data
+        setJsonData(data);
 
-  //       setDisplayData(data[1]);
-  //     });
-  // }, []);
+        setDisplayData(data[1]);
+      });
+  }, []);
   const colors = [
     {
       light: "#C6EFAD", // Lighter shade of green
