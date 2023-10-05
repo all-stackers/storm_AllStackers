@@ -6,6 +6,7 @@ const AppContextProvider = ({ children }) => {
     const [checkingIfLoggedIn, setCheckingIfLoggedIn] = useState(true)
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
     const [userData, setUserData] = useState({
+        symptoms: [],
     })
     
     const fetchUserDetails = (token) => {

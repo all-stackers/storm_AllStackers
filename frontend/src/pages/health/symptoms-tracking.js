@@ -1,10 +1,8 @@
-import { DatePickerOptions } from "@/constants/Constants";
 import { AppContext } from "@/context/appContext";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import DatePicker from "tailwind-datepicker-react";
 import { ScaleLoader } from "react-spinners";
 
 const symptomsTracking = () => {
@@ -17,65 +15,51 @@ const symptomsTracking = () => {
   const [askAi, setAskAi] = useState(false);
   const [loadingAI, setLoadingAI] = useState(false);
   const [symptoms, setSymptoms] = useState([]);
+  const [selectedSymptoms, setSelectedSymptoms] = useState(userData.symptoms);
 
   useEffect(() => {
     console.log(userData)
-    if (!userData) return;
-    const smp = userData?.symptoms?.filter((symptom) => {
-      const date = new Date(symptom.date);
-      const today = new Date();
-      const todayDate = new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate()
-      );
-  
-      console.log(date)
-  
-      return date.getTime() === todayDate.getTime();
-    });
-
-    setSymptoms(smp);
-    setSelectedSymptoms(smp?.symptoms);
-
+    if (!userData || userData.length == 0) return;
+    else {
+      console.log(userData)
+      setSelectedSymptoms(userData.symptoms);
+    }
   }, [userData]);
 
-
-  const [selectedSymptoms, setSelectedSymptoms] = useState(
-    symptoms?.length > 0 ? symptoms[0].symptoms : []
-  );
+  // console.log(symptoms)
+  // console.log(selectedSymptoms[0].symptoms.map((symptom) => {
+  //   console.log(symptom)
+  // }));
 
   const onAskAIhandler = () => {
     setLoadingAI(true);
 
-    // const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("access_token");
 
-    // var myHeaders = new Headers();
-    // myHeaders.append("Authorization", `Bearer ${token}`);
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
-    // var raw = "";
+    var raw = "";
 
-    // var requestOptions = {
-    //   method: "POST",
-    //   headers: myHeaders,
-    //   body: raw,
-    //   redirect: "follow",
-    // };
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
 
-    // fetch("http://localhost:5000/doshaTreatment", requestOptions)
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //     console.log(result.data);
-    //     setAiResponse(result.data);
-    //   })
-    //   .catch((error) => console.log("error", error))
-    //   .finally(() => setLoadingAI(false));
+    fetch("http://localhost:5000/aiSymptoms", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result.data);
+        setAiResponse(result.data);
+      })
+      .catch((error) => console.log("error", error))
+      .finally(() => setLoadingAI(false));
   };
 
-  console.log(selectedSymptoms);
 
   const onBackClickHandler = () => {
-    router.back();
+    router.push('/dashboard')
   };
 
   const onAddSymptomsClickHandler = () => {
@@ -83,8 +67,8 @@ const symptomsTracking = () => {
   };
 
   const onChangeSymptomLevelHandler = (symptom, level) => {
-    // find that symptom in selectedSymptoms and update it with the new level
-    const newSelectedSymptoms = selectedSymptoms.map((symptomObj) => {
+    console.log(selectedSymptoms[0])
+    const newSelectedSymptoms = selectedSymptoms[0].symptoms.map((symptomObj) => {
       if (symptomObj.id === symptom.id) {
         return {
           ...symptomObj,
@@ -95,12 +79,16 @@ const symptomsTracking = () => {
       }
     });
 
-    console.log(newSelectedSymptoms);
-    setSelectedSymptoms(newSelectedSymptoms);
+    setSelectedSymptoms([
+      {
+        date: selectedSymptoms[0].date,
+        symptoms: newSelectedSymptoms,
+      },
+    ]);
   };
 
   const onSaveSymptomsClickHandler = async () => {
-    if (savedStatus || selectedSymptoms.length == 0) return;
+    if (savedStatus || selectedSymptoms?.length == 0) return;
 
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NjQzNDc1NywianRpIjoiMTBhMDAxNTgtNTk2OC00NzQ0LTg5MjMtYjVkZTY0YjQ1MTNiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjkxMzczNTcwMDMiLCJuYmYiOjE2OTY0MzQ3NTcsImV4cCI6MTY5NjUyMTE1N30.WrSWvj27zVmXx659O07KQqdkrGY2Pazrf9CT-Sy20vU";
@@ -196,74 +184,85 @@ const symptomsTracking = () => {
         Today's Log
       </div>
 
-      {selectedSymptoms.length == 0 && (
+      {/* {selectedSymptoms?.length == 0 && (
         <div className="w-[400px] absolute m-auto text-center mt-[350px]">
           Add symptoms you are experiencing today
         </div>
-      )}
+      )} */}
 
-      <div className="flex flex-col overflow-scroll gap-y-[10px] mb-[10px] mt-[20px]">
-        {selectedSymptoms.map((symptom) => {
-          console.log(symptom.level);
-          return (
-            <div
-              className={`flex flex-col w-[90%] mx-auto rounded-[10px] px-[5px] py-[10px] ${
-                symptom.type == "Physical" && "bg-[#FFF1F9]"
-              } ${symptom.type == "Emotional" && "bg-[#F1FFF2]"} ${
-                symptom.type == "Other" && "bg-[#F6F3FF]"
-              }`}
-            >
-              <div className="flex flex-row items-center justify-center">
-                <div className="font-semitext-[16px]">{symptom.name}</div>
-              </div>
+      {selectedSymptoms.length > 0 &&
+        <div className="flex flex-col overflow-scroll gap-y-[10px] mb-[10px] mt-[20px]">
+          {selectedSymptoms[0].symptoms.map((symptom) => {
+            console.log(symptom)
+          })}
+        </div>
+      }
 
-              <div className="flex flex-col w-[90%] self-center justify-between">
-                <div
-                  className={`${symptom.type == "Physical" && "bg-[#da7bae]"} ${
-                    symptom.type == "Emotional" && "bg-[#4EA670]"
-                  } ${
-                    symptom.type == "Other" && "bg-[#838CD8]"
-                  } h-[2px] mt-[25px] mb-[15px] relative rounded-sm`}
-                >
+
+
+      {selectedSymptoms.length > 0 && <div className="flex flex-col overflow-scroll gap-y-[10px] mb-[10px] mt-[20px]">
+        {selectedSymptoms[0].symptoms.map((symptom) => {
+            return (
+              <div
+                className={`flex flex-col w-[90%] mx-auto rounded-[10px] px-[5px] py-[10px] ${
+                  symptom.type == "Physical" && "bg-[#FFF1F9]"
+                } ${symptom.type == "Emotional" && "bg-[#F1FFF2]"} ${
+                  symptom.type == "Other" && "bg-[#F6F3FF]"
+                }`}
+              >
+                <div className="flex flex-row items-center justify-center">
+                  <div className="font-semitext-[16px]">{symptom.name}</div>
+                </div>
+  
+                <div className="flex flex-col w-[90%] self-center justify-between">
                   <div
-                    className={`absolute ${
-                      symptom.type === "Physical"
-                        ? "bg-[#da7bae]"
-                        : symptom.type === "Emotional"
-                        ? "bg-[#4EA670]"
-                        : "bg-[#838CD8]"
-                    } h-[4px] ${symptom.level == 1 && "w-[2%]"} ${
-                      symptom.level == 2 && "w-[50%]"
+                    className={`${symptom.type == "Physical" && "bg-[#da7bae]"} ${
+                      symptom.type == "Emotional" && "bg-[#4EA670]"
                     } ${
-                      symptom.level == 3 && "w-[100%]"
-                    } mt-[-1px] flex flex-row items-center rounded-sm`}
+                      symptom.type == "Other" && "bg-[#838CD8]"
+                    } h-[2px] mt-[25px] mb-[15px] relative rounded-sm`}
                   >
                     <div
-                      className={`rounded-full w-[10px] h-[10px] ml-auto ${
-                        symptom.type == "Physical" && "bg-[#da7bae]"
-                      } ${symptom.type == "Emotional" && "bg-[#4EA670]"} ${
-                        symptom.type == "Other" && "bg-[#838CD8]"
-                      }`}
-                    ></div>
+                      className={`absolute ${
+                        symptom.type === "Physical"
+                          ? "bg-[#da7bae]"
+                          : symptom.type === "Emotional"
+                          ? "bg-[#4EA670]"
+                          : "bg-[#838CD8]"
+                      } h-[4px] ${symptom.level == 1 && "w-[2%]"} ${
+                        symptom.level == 2 && "w-[50%]"
+                      } ${
+                        symptom.level == 3 && "w-[100%]"
+                      } mt-[-1px] flex flex-row items-center rounded-sm`}
+                    >
+                      <div
+                        className={`rounded-full w-[10px] h-[10px] ml-auto ${
+                          symptom.type == "Physical" && "bg-[#da7bae]"
+                        } ${symptom.type == "Emotional" && "bg-[#4EA670]"} ${
+                          symptom.type == "Other" && "bg-[#838CD8]"
+                        }`}
+                      ></div>
+                    </div>
                   </div>
-                </div>
-
-                <div className="flex flex-row justify-between">
-                  <div onClick={() => onChangeSymptomLevelHandler(symptom, 1)}>
-                    Low
-                  </div>
-                  <div onClick={() => onChangeSymptomLevelHandler(symptom, 2)}>
-                    Medium
-                  </div>
-                  <div onClick={() => onChangeSymptomLevelHandler(symptom, 3)}>
-                    High
+  
+                  <div className="flex flex-row justify-between">
+                    <div onClick={() => onChangeSymptomLevelHandler(symptom, 1)}>
+                      Low
+                    </div>
+                    <div onClick={() => onChangeSymptomLevelHandler(symptom, 2)}>
+                      Medium
+                    </div>
+                    <div onClick={() => onChangeSymptomLevelHandler(symptom, 3)}>
+                      High
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
+            );
+          // console.log(symptom.level);
+          
         })}
-      </div>
+      </div>}
       {askAi ? (
         <div className="mx-[20px] mt-[20px] text-[18px] p-3 rounded-lg bg-purple-100">
           <h1 className="text-xl font-medium"> AI Response :- </h1>
@@ -278,7 +277,7 @@ const symptomsTracking = () => {
         </div>
       ) : null}
 
-      {selectedSymptoms.length == 0 ? (
+      {!selectedSymptoms || selectedSymptoms?.length == 0 ? (
         <div
           className="w-[90%] min-h-[40px] flex items-center justify-center mt-auto mb-[20px] self-center rounded-[5px] bg-[#DE8F90] font-semibold text-white cursor-pointer"
           onClick={onAddSymptomsClickHandler}

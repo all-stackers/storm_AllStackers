@@ -149,14 +149,20 @@ const selectSymptoms = () => {
             symptoms: selectedSymptoms
         }
 
+        console.log(newSymptoms)
+
         const newUserData = {
             ...userData,
             symptoms: [...userData.symptoms.filter(symptom => new Date(symptom.date).getTime() != newDate.getTime()), newSymptoms]
         }
 
+        console.log(newUserData)
+
         setUserData(newUserData)
-        router.back()
+        router.push('/health/symptoms-tracking')
     }
+
+    console.log(userData)
 
 
     return (
