@@ -19,7 +19,7 @@ const AppContextProvider = ({ children }) => {
         redirect: 'follow'
         };
 
-        fetch("http://localhost:5000/getUser", requestOptions)
+        fetch("http://192.168.1.109:5000/getUser", requestOptions)
         .then(response => response.json())
         .then(result => {
             console.log("user details: ", result.data)

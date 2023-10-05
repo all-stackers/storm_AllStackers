@@ -92,3 +92,9 @@ class Secure(Resource):
     def get(self):
         mobile_number = get_jwt_identity()
         return {"error": False, "data": mobile_number}
+    
+
+class Test(Resource):
+
+    def get(self):
+        return {"error": False, "data": "Hello World"}

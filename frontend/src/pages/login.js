@@ -24,7 +24,7 @@ const login = () => {
         event.preventDefault()
         setIsLoggingIn(true)
         try {
-            const response = await axios.post('http://localhost:5000/login', {
+            const response = await axios.post('http://192.168.1.109:5000/login', {
                 mobile_number: event.target.phone.value,
                 password: event.target.password.value
             })

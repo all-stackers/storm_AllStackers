@@ -9,7 +9,7 @@ const ModuleCard = ({ number, title, content }) => {
   const translateText = async (text) => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/translate", {
+      const response = await fetch("http://192.168.1.109:5000/translate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

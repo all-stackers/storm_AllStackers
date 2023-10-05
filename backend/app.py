@@ -4,7 +4,7 @@ load_dotenv()
 from flask import Flask
 from flask_restful import Api
 from resources.aadhaar import Aadhaar
-from resources.user import (Signup, Login, SaveSymptoms, User)
+from resources.user import (Signup, Login, SaveSymptoms, User, Test)
 from resources.ai import (AISymptoms, FoodAnalysis)
 from mongo_engine import db
 from flask_jwt_extended import JWTManager
@@ -36,6 +36,8 @@ api.add_resource(User, "/getUser")
 
 api.add_resource(AISymptoms, "/aiSymptoms")
 api.add_resource(FoodAnalysis, "/foodAnalysis")
+
+api.add_resource(Test, "/test")
 
 # api.add_resource(Secure, "/testingjwt")
 
