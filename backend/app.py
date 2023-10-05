@@ -9,6 +9,9 @@ from resources.ai import (AISymptoms, FoodAnalysis)
 from mongo_engine import db
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from datetime import timedelta
+from flask import jsonify, request
+from englisttohindi.englisttohindi import EngtoHindi
 
 app = Flask(__name__)
 api = Api(app)
@@ -38,6 +41,22 @@ api.add_resource(AISymptoms, "/aiSymptoms")
 api.add_resource(FoodAnalysis, "/foodAnalysis")
 
 api.add_resource(Test, "/test")
+
+@app.route('/translate', methods=['POST'])
+def translate_text():
+    try:
+        # Get the text from the POST request
+        data = request.get_json()
+        text_to_translate = data['text']
+
+        # Translate the text using EngtoHindi
+        translator = EngtoHindi(text_to_translate)
+        translation = translator.convert
+
+        return jsonify({'translation': translation})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 # api.add_resource(Secure, "/testingjwt")
 
