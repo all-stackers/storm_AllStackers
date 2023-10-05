@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { ScaleLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
@@ -9,27 +10,34 @@ const dailyfood = () => {
 
     const onEnterPress = async (event) => {
         if (event.key === 'Enter') {
+            console.log("symptoms: ")
+            event.preventDefault()
             if (symptoms.length === 0) {
                 toast.error('Please enter the Data')
                 return
             }
-            // setData(null)
-            // setLoading(true)
-            // try {
-            //     const response = await axios.post('https://allstackers3.onrender.com/predictDisease', {
-            //         symptoms: symptoms
-            //     })
-
-            //     const data = response.data
-            //     setData(data.data)
-            // }
-            // catch (error) {
-            //     console.log(error)
-            // }
-            // finally {
-            //     setLoading(false)
-            //     setSymptoms('')
-            // }
+            setData(null)
+            setLoading(true)
+            try {
+                const response = await axios.post('http://localhost:5000/foodAnalysis', {
+                    food: symptoms
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+                    
+                    }
+                })
+                const data = response.data
+                setData(data.data)
+            }
+            catch (error) {
+                console.log(error)
+            }
+            finally {
+                setLoading(false)
+                setSymptoms('')
+            }
         }
     }
 

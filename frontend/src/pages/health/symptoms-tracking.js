@@ -47,7 +47,7 @@ const symptomsTracking = () => {
       redirect: "follow",
     };
 
-    fetch("http://localhost:500/aiSymptoms", requestOptions)
+    fetch("http://localhost:5000/aiSymptoms", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);
