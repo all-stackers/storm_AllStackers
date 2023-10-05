@@ -228,9 +228,12 @@ const dashboard = () => {
               Health Matrics
             </h1>
           </div>
-          <div className="h-[100%] min-w-[80px] bg-[#ac9cf9] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]">
+          <div
+            className="h-[100%] min-w-[80px] bg-[#ac9cf9] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]"
+            onClick={() => router.push("/afterbirth/massage/dash")}
+          >
             <h1 className="text-[white] font-bold text-center">
-              Learning series
+              Massage Technique
             </h1>
           </div>
           <div className="h-[100%] min-w-[80px] bg-[#58ce98] rounded-[10px]  shadow-2xl cursor-pointer flex justify-center items-center p-[5px]">
