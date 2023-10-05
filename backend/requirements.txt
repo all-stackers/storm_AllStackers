@@ -11,4 +11,4 @@ openai==0.28.0
 pymongo==4.5.0
 python_bcrypt==0.3.2
 twilio==8.8.0
-python-dotenv==1.0.0
+python-dotenv
