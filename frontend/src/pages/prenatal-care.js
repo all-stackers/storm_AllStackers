@@ -9,7 +9,7 @@ const PrenatalCenter = () => {
   const [displayData, setDisplayData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/schedule.json")
+    fetch("/schedule.json")
       .then((response) => response.json())
       .then((data) => {
         // Update the component's state with the JSON data

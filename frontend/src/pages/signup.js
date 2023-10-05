@@ -24,7 +24,7 @@ const signup = () => {
     useEffect(() => {
         console.log("inside Signup page")
         if (appContext.isUserLoggedIn) {
-            router.push('/home')
+            router.push('/dashboard')
         }
     }, [appContext])
 
