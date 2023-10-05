@@ -87,6 +87,7 @@ class FoodAnalysis(Resource):
         parser.add_argument("food", type=str, required=True, help="food is required")
         args = parser.parse_args()
 
+        print(args["food"])
 
         mobile_number = get_jwt_identity()
         response = UserModel.get_user_by_mobile_number(mobile_number)
