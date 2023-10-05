@@ -61,7 +61,7 @@ class AISymptoms(Resource):
 template2 = """Act as an Doctor who is expert in women's health, pregnancy and maternal health and he is consulting their patient. 
 Using your expertise and knowledge, answer the following question.
 question: I am a pregnant woman. I have eat the following food items in a day, please tell me is it safe to eat these food items? Also mention thinks like If you diabetic don't eat that, if you are having BP don't eat that, etc. : 
-{food}
+{food2}
 pregnantDate: {pregnantDate}
 currentDate: {currentDate}
 Keep your response short, crisp and to the point.
@@ -70,7 +70,7 @@ Keep your response short, crisp and to the point.
 prompt2 = PromptTemplate(
     template=template2,
     input_variables=[
-        "food",
+        "food2",
         "pregnantDate",
         "currentDate"
     ]
@@ -100,6 +100,6 @@ class FoodAnalysis(Resource):
         currentDate = datetime.now()
         print(currentDate)
 
-        result = llm_chain2.run(food=args["food"], pregnantDate=user.pregnantDate, currentDate=currentDate)
+        result = llm_chain2.run(food2=args["food"], pregnantDate=user.pregnantDate, currentDate=currentDate)
         
         return {"error": False, "data": result}
