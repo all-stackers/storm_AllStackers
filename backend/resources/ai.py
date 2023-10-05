@@ -13,16 +13,19 @@ llm = OpenAI(temperature=0.1, model_name="gpt-3.5-turbo")
 
 template1 = """Act as an Doctor who is expert in women's health, pregnancy and maternal health and he is consulting their patient. 
 Using your expertise and knowledge, answer the following question.
-question: I am a {week} week pregnant woman. Now I am feeling the following symptoms: 
+question: I am a pregnant woman. Now I am feeling the following symptoms: 
 {symptoms}
-Is it normal have the given symptoms?
+Is it normal have the given symptoms? I will pass the pregnant date and current date, according you calculate in which of the week of the pregnancy she is in. Keep your response small.
+pregnantDate: {pregnantDate}
+currentDate: {currentDate}
 """
 
 prompt1 = PromptTemplate(
     template=template1,
     input_variables=[
-        "week",
-        "symptoms"
+        "symptoms",
+        "pregnantDate",
+        "currentDate"
     ]
 )
 
@@ -40,12 +43,17 @@ class AISymptoms(Resource):
         
         user = response["data"]
 
+        currentDate = datetime.now()
+        print(currentDate)
+
         symptoms = []
         for symptom in user.symptoms:
             for s in symptom["symptoms"]:
                 symptoms.append(s["name"])
 
-        result = llm_chain.run(week="24", symptoms=symptoms)
+        print(symptoms)
+
+        result = llm_chain.run(symptoms=symptoms, pregnantDate=user.pregnantDate, currentDate=currentDate)
         
         return {"error": False, "data": result}
     
