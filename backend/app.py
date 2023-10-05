@@ -12,6 +12,12 @@ from flask_cors import CORS
 from datetime import timedelta
 from flask import jsonify, request
 from englisttohindi.englisttohindi import EngtoHindi
+from twilio.rest import Client
+
+account_sid = "AC9bfcbe0ba32fab4c09b5425fddceace8"
+auth_token = "5d51d42b2d4b308a771672a88efedbc6"
+verify_sid = "VA7e64a86c7e0d139780d5b3f77367f38d"
+client = Client(account_sid, auth_token)
 
 app = Flask(__name__)
 api = Api(app)
@@ -60,6 +66,18 @@ def translate_text():
         return jsonify({'error': str(e)}), 400
 
 # api.add_resource(Secure, "/testingjwt")
+
+@app.route("/sendMessage", methods=["GET"])
+def sendMessage():
+
+    mobile_number = "+919004690126"
+
+    verification = client.verify.v2.services(verify_sid) \
+    .verifications \
+    .create(to=mobile_number, channel="sms")
+
+    return {"error": False, "data": verification.status}
+
 
 if __name__ == "__main__":
     app.run(debug=True)

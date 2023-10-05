@@ -20,7 +20,7 @@ const Workouts = () => {
 
 
     try {
-      const response = await axios.get('https://allstackers3.onrender.com/workout',
+      const response = await axios.get('http://localhost:5000/workout',
       {
           "headers": {
               "content-type": "application/json",
