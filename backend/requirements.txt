@@ -11,3 +11,4 @@ pymongo==4.5.0
 python_bcrypt==0.3.2
 twilio==8.8.0
 python-dotenv
+python==3.11.4
