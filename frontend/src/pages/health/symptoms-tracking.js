@@ -47,7 +47,7 @@ const symptomsTracking = () => {
       redirect: "follow",
     };
 
-    fetch("http://allstackers3.onrender.com/aiSymptoms", requestOptions)
+    fetch("https://allstackers3.onrender.com/aiSymptoms", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);
