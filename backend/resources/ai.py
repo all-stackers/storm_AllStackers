@@ -6,7 +6,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from langchain import HuggingFaceHub, PromptTemplate, LLMChain, OpenAI
 import os
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = os.getenv("FLASK_OPENAI_API_KEY")
 
 # llm=HuggingFaceHub(repo_id="google/flan-t5-base", task='text-generation', huggingfacehub_api_token="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")
 llm = OpenAI(temperature=0.1, model_name="gpt-3.5-turbo")
@@ -52,16 +52,19 @@ class AISymptoms(Resource):
 
 template2 = """Act as an Doctor who is expert in women's health, pregnancy and maternal health and he is consulting their patient. 
 Using your expertise and knowledge, answer the following question.
-question: I am a {week} week pregnant woman. I have eat the following food items in a day, please tell me is it safe to eat these food items? Also mention thinks like If you diabetic don't eat that, if you are having BP don't eat that, etc. : 
+question: I am a pregnant woman. I have eat the following food items in a day, please tell me is it safe to eat these food items? Also mention thinks like If you diabetic don't eat that, if you are having BP don't eat that, etc. : 
 {food}
-Is it normal have the given symptoms?
+Is it normal have the given symptoms? I will pass the pregnant date and current date, according you calculate in which of the week of the pregnancy she is in. Keep your response small.
+pregnantDate: {pregnantDate}
+currentDate: {currentDate}
 """
 
 prompt2 = PromptTemplate(
     template=template2,
     input_variables=[
-        "week",
-        "food"
+        "food",
+        "pregnantDate",
+        "currentDate"
     ]
 )
 
@@ -85,6 +88,9 @@ class FoodAnalysis(Resource):
         
         user = response["data"]
 
-        result = llm_chain2.run(week="24", food=args["food"])
+        currentDate = datetime.now()
+        print(currentDate)
+
+        result = llm_chain2.run(food=args["food"], pregnantDate=user.pregnantDate, currentDate=currentDate)
         
         return {"error": False, "data": result}
