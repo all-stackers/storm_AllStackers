@@ -3,6 +3,7 @@ import "react-circular-progressbar/dist/styles.css";
 import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { AppContext } from "@/context/appContext";
+import axios from "axios";
 
 const dashboard = () => {
   const router = useRouter();
@@ -143,7 +144,35 @@ const dashboard = () => {
 
   // Function to calculate the difference between the two dates
 
-  console.log("difference", difference);
+  const EmergencySOS = () => {
+    const userResponse = window.confirm(
+      "Do you want to proceed with this action?"
+    );
+
+    if (userResponse) {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+            try {
+              const response = await axios.get(
+                "http://localhost:5000/sendMessage"
+              );
+              console.log(response.data);
+            } catch (error) {
+              console.error("Error getting nearby hospital location:", error);
+            }
+          },
+          (error) => {
+            console.error("Error getting user's location:", error);
+          }
+        );
+      } else {
+        console.error("Geolocation is not available in this browser.");
+      }
+    }
+  };
 
   return (
     <div className="h-[100%] p-[20px]">
@@ -203,27 +232,7 @@ const dashboard = () => {
         </div>
       </div>
       <div
-        onClick={() => {
-          const userResponse = window.confirm(
-            "Do you want to proceed with this action?"
-          );
-
-          if (userResponse) {
-            if ("geolocation" in navigator) {
-              navigator.geolocation.getCurrentPosition(
-                (position) => {
-                  const { latitude, longitude } = position.coords;
-                  console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-                },
-                (error) => {
-                  console.error("Error getting user's location:", error);
-                }
-              );
-            } else {
-              console.error("Geolocation is not available in this browser.");
-            }
-          }
-        }}
+        onClick={EmergencySOS}
         className="px-7 py-2 my-5 text-white bg-red-500 rounded-full w-fit flex mx-auto"
       >
         Emergency SOS
@@ -261,10 +270,13 @@ const dashboard = () => {
               Massage Technique
             </h1>
           </div>
-          <div className="h-[60px] w-[90px] bg-[#58ce98] rounded-[10px] cursor-pointer flex justify-center items-center" onClick={() => {router.push("/learning/nutrition")}}>
-            <h1 className="text-[white] font-bold text-center">
-              Learning
-            </h1>
+          <div
+            className="h-[60px] w-[90px] bg-[#58ce98] rounded-[10px] cursor-pointer flex justify-center items-center"
+            onClick={() => {
+              router.push("/learning/nutrition");
+            }}
+          >
+            <h1 className="text-[white] font-bold text-center">Learning</h1>
           </div>
           <div
             className="h-[60px] w-[90px] bg-blue-300 rounded-[10px] cursor-pointer flex justify-center items-center"

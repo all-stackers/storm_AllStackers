@@ -196,12 +196,19 @@ const PrenatalCenter = () => {
       </div>
       <div className="px-[15px]">
         <div className="flex flex-col">
-          <div className="my-2">
+          <div className="mt-4 mb-2">
             <div className="flex flex-row mb-5 items-center justify-between">
-              <h1 className="text-2xl font-bold">Schedules</h1>
-              {/* <button className="bg-[#f07a7a] hover:bg-[#cf6868] hover:text-gray-200 text-white font-bold py-2 px-4 rounded">
+              <h1 className="text-2xl font-bold">
+                {activeDay == 5
+                  ? "Toaday's "
+                  : activeDay == 6
+                  ? "Tomorrow's "
+                  : "Past "}
+                Schedules
+              </h1>
+              <button className="bg-[#f07a7a] hover:bg-[#cf6868] hover:text-gray-200 text-white font-bold py-2 px-4 rounded">
                 Add Event
-              </button> */}
+              </button>
             </div>
             {jsonData != null ? (
               <>
@@ -234,7 +241,7 @@ const PrenatalCenter = () => {
                             const jsonData_ = jsonData;
                             jsonData_[activeDay - 4][index].visited = true;
                             setJsonData(jsonData_);
-                            setDisplayData(jsonData[activeDay-4])
+                            setDisplayData(jsonData[activeDay - 4]);
                           }}
                         ></div>
                         <div className="w-full p-2">
