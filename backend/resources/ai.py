@@ -103,3 +103,42 @@ class FoodAnalysis(Resource):
         result = llm_chain2.run(food2=args["food"], pregnantDate=user.pregnantDate, currentDate=currentDate)
         
         return {"error": False, "data": result}
+    
+
+
+template3 = """Act as an Doctor who is expert in women's health, pregnancy and maternal health and he is consulting their patient. 
+Using your expertise and knowledge, answer the following question.
+Give me List of workout to do during pregnancy. Keep in mind my pregranancy week. 
+pregnantDate: {pregnantDate}
+currentDate: {currentDate}
+Keep your response short, crisp and to the point.
+"""
+
+prompt3 = PromptTemplate(
+    template=template3,
+    input_variables=[
+        "pregnantDate",
+        "currentDate"
+    ]
+)
+
+llm_chain3 = LLMChain(llm=llm, prompt=prompt3)
+
+
+class Workout(Resource):
+    @jwt_required()
+    def get(self):
+
+        mobile_number = get_jwt_identity()
+
+        response = UserModel.get_user_by_mobile_number(mobile_number)
+
+        if response["error"]:
+            return response, 404
+        
+        user = response["data"]
+
+        currentDate = datetime.now()
+
+        result = llm_chain3.run(pregnantDate=user.pregnantDate, currentDate=currentDate)
+        return {"error": False, "data": result}

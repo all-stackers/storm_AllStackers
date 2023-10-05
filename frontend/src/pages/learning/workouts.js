@@ -3,6 +3,7 @@ import Navbar from "@/components/learning/Navbar";
 import videos from "@/utils/workoutVideos";
 import VideoCard from "@/components/learning/VideoCard";
 import { ScaleLoader } from "react-spinners";
+import axios from "axios";
 
 const Workouts = () => {
   const [aiResponse, setAiResponse] = useState("");
@@ -10,12 +11,35 @@ const Workouts = () => {
   const [loadingAI, setLoadingAI] = useState(false);
   const aiResponseRef = useRef(null);
 
-  const onAskAIhandler = () => {
+  const onAskAIhandler = async () => {
     setLoadingAI(true);
     if (aiResponseRef.current) {
       console.log(aiResponseRef.current);
       aiResponseRef.current.scrollIntoView({ behavior: "smooth" });
     }
+
+
+    try {
+      const response = await axios.get('http://localhost:5000/workout', 
+      {
+          "headers": {
+              "content-type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem('access_token')}`
+          }
+      }
+      )
+          const data = response.data
+          setAiResponse(data.data)
+      }
+      catch (error) {
+          console.log(error)
+      }
+      finally {
+          setLoadingAI(false)
+          // setAiResponse('')
+      }
+
+
   };
   return (
     <div className="">

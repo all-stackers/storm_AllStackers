@@ -5,7 +5,7 @@ from flask import Flask
 from flask_restful import Api
 from resources.aadhaar import Aadhaar
 from resources.user import (Signup, Login, SaveSymptoms, User, Test)
-from resources.ai import (AISymptoms, FoodAnalysis)
+from resources.ai import (AISymptoms, FoodAnalysis, Workout)
 from mongo_engine import db
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
@@ -40,6 +40,7 @@ api.add_resource(User, "/getUser")
 api.add_resource(AISymptoms, "/aiSymptoms")
 api.add_resource(FoodAnalysis, "/foodAnalysis")
 
+api.add_resource(Workout, "/workout")
 api.add_resource(Test, "/test")
 
 @app.route('/translate', methods=['POST'])
