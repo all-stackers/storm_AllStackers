@@ -24,7 +24,7 @@ const login = () => {
         event.preventDefault()
         
         // try {
-        //     const response = await axios.post('http://localhost:5000/login', {
+        //     const response = await axios.post('http://allstackers3.onrender.com/login', {
         //         mobile_number: event.target.phone.value,
         //         password: event.target.password.value
         //     })
