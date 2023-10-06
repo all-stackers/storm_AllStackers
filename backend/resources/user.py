@@ -16,10 +16,6 @@ class Signup(Resource):
         parser.add_argument("pregnantDate", type=str, required=True, help="pregnantDate is required")
         parser.add_argument("dueDate", type=str, required=True, help="due_date is required")
         args = parser.parse_args()
-
-        # args["password"] = bcrypt.hashpw(
-        #     args["password"].encode("utf-8"), bcrypt.gensalt()
-        # ).decode("utf-8")
     
         response = UserModel.add_user(args)
         if response["error"]:
@@ -27,7 +23,7 @@ class Signup(Resource):
         
         user = response["data"]
 
-        access_token = create_access_token(identity=user.mobile_number, expires_delta=timedelta(days=1))
+        access_token = create_access_token(identity=user.mobile_number, expires_delta=False)
         
         return {"error": False, "data": json.loads(user.to_json()), "access_token": access_token}
     
@@ -52,7 +48,7 @@ class Login(Resource):
         if not passwordMatch:
             return {"error": True, "message": "Invalid credentials"}, 401
         
-        access_token = create_access_token(identity=user.mobile_number, expires_delta=timedelta(days=1))
+        access_token = create_access_token(identity=user.mobile_number, expires_delta=False)
         
         return {"error": False, "data": json.loads(user.to_json()), "access_token": access_token}
     
@@ -65,7 +61,7 @@ class User(Resource):
         mobile_number = get_jwt_identity()
         response = UserModel.get_user_by_mobile_number(mobile_number)
         if response["error"]:
-            return response, 404
+            return {"error": True, "message": response}, 404
         
         user = response["data"]
         return {"error": False, "data": json.loads(user.to_json())}

@@ -15,6 +15,8 @@ const PrenatalCenter = () => {
         // Update the component's state with the JSON data
         setJsonData(data);
 
+        console.log(data)
+
         setDisplayData(data[1]);
       });
   }, []);
@@ -213,8 +215,11 @@ const PrenatalCenter = () => {
             {jsonData != null ? (
               <>
                 {displayData.length > 0 ? (
-                  <div className="">
-                    {displayData.map((item, index) => (
+                  <div className=""
+                    key={displayData.prenatal_center}
+                  >
+                    {displayData.map((item, index) => {
+                      return (
                       <div
                         key={index}
                         className={`mb-4 w-full flex flex-row rounded-lg h-[100px] ${
@@ -238,10 +243,12 @@ const PrenatalCenter = () => {
                               : ""
                           }`}
                           onClick={() => {
-                            const jsonData_ = jsonData;
-                            jsonData_[activeDay - 4][index].visited = true;
-                            setJsonData(jsonData_);
-                            setDisplayData(jsonData[activeDay - 4]);
+                            console.log("clicked");
+                            const jsonDataCopy = [...jsonData]; // Create a shallow copy of jsonData
+                            jsonDataCopy[activeDay - 4][index].visited = true;
+                            console.log(jsonDataCopy);
+                            setJsonData(jsonDataCopy);
+                            setDisplayData(jsonDataCopy[activeDay - 4]);
                           }}
                         ></div>
                         <div className="w-full p-2">
@@ -268,7 +275,7 @@ const PrenatalCenter = () => {
                           </div>
                         </div>
                       </div>
-                    ))}
+                    )})}
                   </div>
                 ) : (
                   <p>No Data</p>

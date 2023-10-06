@@ -22,9 +22,13 @@ const AppContextProvider = ({ children }) => {
         fetch("https://allstackers3.onrender.com/getUser", requestOptions)
         .then(response => response.json())
         .then(result => {
+            if (result.error) {
+                setIsUserLoggedIn(false)
+                setCheckingIfLoggedIn(false)
+                localStorage.removeItem('access_token')
+            }
             console.log("user details: ", result.data)
             setUserData(result.data)
-            
         })
         .catch(error => console.log('error', error));
     }

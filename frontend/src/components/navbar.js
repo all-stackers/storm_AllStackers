@@ -29,6 +29,8 @@ const Navbar = () => {
   const onLogoutClickHandler = () => {
     localStorage.removeItem("access_token");
     appContext.setIsUserLoggedIn(false);
+    setUserData({});
+    router.push("/login");
   };
 
   function getGreeting() {

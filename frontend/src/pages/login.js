@@ -33,7 +33,9 @@ const login = () => {
             
             localStorage.setItem('access_token', data.access_token)
             toast.success("Logged in successfully")
+            appContext.setUserData(data.data)
             appContext.setIsUserLoggedIn(true)
+            router.push('/dashboard')
         }
         catch (error) {
             const errorMessage = error.response.data.message

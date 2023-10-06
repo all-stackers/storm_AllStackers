@@ -127,10 +127,12 @@ const dashboard = () => {
     const d = new Date();
     setDate2(d);
 
-    const date1Obj = new Date(date1);
-    const date2Obj = new Date(date2);
+    const date1Obj = new Date(userData?.dueDate);
+    const date2Obj = new Date(d);
+    console.log(date1Obj, date2Obj);
 
     if (!isNaN(date1Obj) && !isNaN(date2Obj)) {
+      console.log(date1Obj, date2Obj);
       const timeDifference = Math.abs(date2Obj - date1Obj);
       const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
       setDifference(daysDifference);
@@ -157,7 +159,7 @@ const dashboard = () => {
             console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
             try {
               const response = await axios.get(
-                "http://localhost:5000/sendMessage"
+                "https://allstackers3.onrender.com/sendMessage"
               );
               console.log(response.data);
             } catch (error) {
